@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "cz.zcu.kiv.minesweeper"
+        applicationId 'cz.zcu.kiv.jsmahy.minesweeper'
         minSdk 28
         targetSdk 31
         versionCode 1
@@ -28,6 +28,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'cz.zcu.kiv.minesweeper'
 }
 
 dependencies {
