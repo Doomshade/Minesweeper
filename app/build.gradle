@@ -29,7 +29,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'cz.zcu.kiv.minesweeper'
+    namespace 'cz.zcu.kiv.jsmahy.minesweeper'
 }
 
 dependencies {

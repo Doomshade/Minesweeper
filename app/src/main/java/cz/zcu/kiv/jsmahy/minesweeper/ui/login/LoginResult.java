@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.ui.login;
+package cz.zcu.kiv.jsmahy.minesweeper.ui.login;
 
 import androidx.annotation.Nullable;
 

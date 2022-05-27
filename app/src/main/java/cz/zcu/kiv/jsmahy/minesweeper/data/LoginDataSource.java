@@ -1,6 +1,6 @@
-package cz.zcu.kiv.minesweeper.data;
+package cz.zcu.kiv.jsmahy.minesweeper.data;
 
-import cz.zcu.kiv.minesweeper.data.model.LoggedInUser;
+import cz.zcu.kiv.jsmahy.minesweeper.data.model.LoggedInUser;
 
 import java.io.IOException;
 

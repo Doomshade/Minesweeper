@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.game.impl;
+package cz.zcu.kiv.jsmahy.minesweeper.game.impl;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
@@ -11,9 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static cz.zcu.kiv.minesweeper.game.impl.GameImpl.DEFAULT_WIDTH_AND_HEIGHT;
-import static cz.zcu.kiv.minesweeper.game.impl.GameImpl.S_HEIGHT;
-import static cz.zcu.kiv.minesweeper.game.impl.GameImpl.S_WIDTH;
+import static cz.zcu.kiv.jsmahy.minesweeper.game.impl.GameImpl.DEFAULT_WIDTH_AND_HEIGHT;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,13 +22,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import cz.zcu.kiv.minesweeper.game.Game;
+import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Log.class})

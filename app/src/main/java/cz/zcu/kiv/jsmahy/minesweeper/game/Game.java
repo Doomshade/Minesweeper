@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.game;
+package cz.zcu.kiv.jsmahy.minesweeper.game;
 
 /**
  * The minesweeper game (engine)

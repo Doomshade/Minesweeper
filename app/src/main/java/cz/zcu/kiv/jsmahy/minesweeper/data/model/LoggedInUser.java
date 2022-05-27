@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.data.model;
+package cz.zcu.kiv.jsmahy.minesweeper.data.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper;
+package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.os.Bundle;
 

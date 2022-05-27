@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.ui.login;
+package cz.zcu.kiv.jsmahy.minesweeper.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import cz.zcu.kiv.minesweeper.data.LoginRepository;
-import cz.zcu.kiv.minesweeper.data.Result;
-import cz.zcu.kiv.minesweeper.data.model.LoggedInUser;
-import cz.zcu.kiv.minesweeper.R;
+import cz.zcu.kiv.jsmahy.minesweeper.data.LoginRepository;
+import cz.zcu.kiv.jsmahy.minesweeper.data.Result;
+import cz.zcu.kiv.jsmahy.minesweeper.data.model.LoggedInUser;
+import cz.zcu.kiv.jsmahy.minesweeper.R;
 
 public class LoginViewModel extends ViewModel {
 

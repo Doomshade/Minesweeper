@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper;
+package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import cz.zcu.kiv.minesweeper.game.Game;
-import cz.zcu.kiv.minesweeper.game.impl.GameImpl;
+import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
+import cz.zcu.kiv.jsmahy.minesweeper.game.impl.GameImpl;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context="cz.zcu.kiv.jsmahy.minesweeper.GameActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragments"
-        android:name="cz.zcu.kiv.minesweeper.DetailsMenuFragment"
+        android:name="cz.zcu.kiv.jsmahy.minesweeper.DetailsMenuFragment"
         android:layout_width="310dp"
         android:layout_height="94dp"
         app:layout_constraintEnd_toEndOf="parent"

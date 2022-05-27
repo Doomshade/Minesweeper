@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.data;
+package cz.zcu.kiv.jsmahy.minesweeper.data;
 
 import androidx.annotation.NonNull;
 

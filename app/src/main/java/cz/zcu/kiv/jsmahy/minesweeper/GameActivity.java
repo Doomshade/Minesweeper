@@ -1,16 +1,11 @@
-package cz.zcu.kiv.minesweeper;
+package cz.zcu.kiv.jsmahy.minesweeper;
+
+import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
-
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
 

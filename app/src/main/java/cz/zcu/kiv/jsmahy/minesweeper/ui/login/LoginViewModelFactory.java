@@ -1,11 +1,11 @@
-package cz.zcu.kiv.minesweeper.ui.login;
+package cz.zcu.kiv.jsmahy.minesweeper.ui.login;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import cz.zcu.kiv.minesweeper.data.LoginDataSource;
-import cz.zcu.kiv.minesweeper.data.LoginRepository;
+import cz.zcu.kiv.jsmahy.minesweeper.data.LoginDataSource;
+import cz.zcu.kiv.jsmahy.minesweeper.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

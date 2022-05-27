@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.game.impl;
+package cz.zcu.kiv.jsmahy.minesweeper.game.impl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.StringJoiner;
 
-import cz.zcu.kiv.minesweeper.game.Game;
+import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
 
 /**
  * Implementation of the game

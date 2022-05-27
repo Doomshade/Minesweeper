@@ -1,4 +1,4 @@
-package cz.zcu.kiv.minesweeper.ui.login;
+package cz.zcu.kiv.jsmahy.minesweeper.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,9 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import cz.zcu.kiv.minesweeper.GameActivity;
-import cz.zcu.kiv.minesweeper.R;
-import cz.zcu.kiv.minesweeper.databinding.ActivityLoginBinding;
+import cz.zcu.kiv.jsmahy.minesweeper.GameActivity;
+import cz.zcu.kiv.jsmahy.minesweeper.R;
+import cz.zcu.kiv.jsmahy.minesweeper.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
