@@ -1,6 +1,7 @@
 package cz.zcu.kiv.minesweeper.ui.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import cz.zcu.kiv.minesweeper.GameActivity;
 import cz.zcu.kiv.minesweeper.R;
 import cz.zcu.kiv.minesweeper.databinding.ActivityLoginBinding;
 
@@ -74,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+                Intent intent = new Intent(LoginActivity.this, GameActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -6,6 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId 'cz.zcu.kiv.jsmahy.minesweeper'
         minSdk 28
         targetSdk 31

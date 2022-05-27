@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hledání min</string>
+    <string name="title_activity_settings">Nastavení</string>
+    <string name="title_activity_main">Hlavní menu</string>
+    <string name="messages_header">Zprávy</string>
+    <string name="sync_header">Synchronizovat</string>
+    <string name="signature_title">Podpis</string>
+    <string name="reply_title">Výchozí odpověď</string>
+    <string name="sync_title">Pravidelně synchronizovat e-mail</string>
+    <string name="attachment_title">Stáhnout přílohy</string>
+    <string name="attachment_summary_on">Automaticky stahovat přílohy</string>
+    <string name="attachment_summary_off">Stahovat přílohy pouze manuálně</string>
+    <string name="title_activity_login">Přihlášení</string>
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Heslo</string>
+    <string name="action_sign_in">Přihlásit se nebo registrovat</string>
+    <string name="action_sign_in_short">Prihlásit se</string>
+    <string name="welcome">Vítej!</string>
+    <string name="invalid_username">Neplatné uživatelské jméno</string>
+    <string name="invalid_password">Heslo musí mít >5 znaků</string>
+    <string name="login_failed">Nepodařilo se přihlásit</string>
+</resources>
