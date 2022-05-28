@@ -6,3 +6,4 @@ Z tohoto důvodu jsem nechal všechny soubory rozdělené -- bude se s tím jedn
 implementace nebude tak pěkná, jako se spritem -- budeme muset použít velký `switch`.
 
 ## Fragmenty...
+Bylo poměrně náročné správně pochopit funkce fragmentů, resp. jejich chování, jak ovlivňují UI.

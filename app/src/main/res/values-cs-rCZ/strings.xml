@@ -20,4 +20,5 @@
     <string name="invalid_username">Neplatné uživatelské jméno</string>
     <string name="invalid_password">Heslo musí mít >5 znaků</string>
     <string name="login_failed">Nepodařilo se přihlásit</string>
+    <string name="img_desc">TODO</string>
 </resources>

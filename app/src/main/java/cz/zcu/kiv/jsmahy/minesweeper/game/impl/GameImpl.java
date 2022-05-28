@@ -11,6 +11,8 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
+import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
+import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 /**
  * Implementation of the game
@@ -52,6 +54,8 @@ public class GameImpl implements Game {
     private boolean generatedMines;
     //</editor-fold>
 
+    private final MineGrid mineGrid;
+
     /**
      * Creates a new game
      *
@@ -76,6 +80,7 @@ public class GameImpl implements Game {
         this.state = new int[height][width];
         this.maxMines = (int) (width * height * 0.75);
         this.generatedMines = false;
+        this.mineGrid = new MineGrid(20);
     }
 
     /**
@@ -265,6 +270,11 @@ public class GameImpl implements Game {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    public MineGrid getMineGrid() {
+        return mineGrid;
     }
 
     @NonNull

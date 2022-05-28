@@ -1,5 +1,7 @@
 package cz.zcu.kiv.jsmahy.minesweeper.game;
 
+import java.util.List;
+
 /**
  * The minesweeper game (engine)
  *
@@ -58,6 +60,8 @@ public interface Game {
      * @return the string representation of the board
      */
     String printBoard();
+
+    MineGrid getMineGrid();
 
     /**
      * The game difficulty
