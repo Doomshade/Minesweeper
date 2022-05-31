@@ -74,7 +74,9 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             }
 
             if (tile.isFlagged()) {
-
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
+                Log.i(TAG_HOLDER, "flag!!");
+                return;
             }
 
             if (mineCount < 0) {

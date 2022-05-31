@@ -2,11 +2,11 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +23,7 @@ import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 public class GameActivity extends AppCompatActivity implements ItemClickListener {
     private RecyclerView recyclerView = null;
     private MineGrid mineGrid = null;
+    private ImageButton btn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,17 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         Log.i("log-game", "current grid: " + mineGrid);
         Log.i("log-game", "instance state = " + savedInstanceState);
         Log.i("log-game", "aaaaaa");
-        if (savedInstanceState == null){
-            mineGrid = new MineGrid(Game.Difficulty.MEDIUM);
+        if (savedInstanceState == null) {
+            mineGrid = new MineGrid(Game.Difficulty.EASY);
         } else {
             mineGrid = savedInstanceState.getParcelable("minegrid");
         }
         mineGrid.generateMines(getApplicationContext());
 
+        this.btn = findViewById(R.id.imageButton);
+        this.btn.setOnClickListener(view -> {
+            flagging = !flagging;
+        });
         this.recyclerView = findViewById(R.id.game_grid);
         // this.game = GameImpl.instantiateGame(getApplicationContext());
         GridRecyclerAdapter gridRecyclerAdapter = new GridRecyclerAdapter(this, mineGrid, this);
@@ -59,11 +64,14 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     private boolean solving = false;
 
     private int getStatus(MineGrid.Position position) {
+        if (!mineGrid.isInBounds(position)) {
+            return UNKNOWN;
+        }
         final Tile clickedTile = mineGrid.tile(position);
+
         if (clickedTile == null) {
             return UNKNOWN;
         }
-
         if (clickedTile.isFlagged()) {
             return FLAGGED;
         }
@@ -82,31 +90,35 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public void onClick(GridRecyclerAdapter.TileViewHolder view) {
-        onClick(view, new HashSet<>());
+        onClick(view, mineGrid.getPosition(view.getAdapterPosition()), new HashSet<>());
     }
 
-    public void onClick(GridRecyclerAdapter.TileViewHolder view, Set<MineGrid.Position> probedTiles) {
-        final MineGrid.Position position = mineGrid.getPosition(view.getAdapterPosition());
+    public void onClick(GridRecyclerAdapter.TileViewHolder view, MineGrid.Position position, Set<MineGrid.Position> probedTiles) {
+        if (!mineGrid.isInBounds(position)) {
+            return;
+        }
         if (!probedTiles.add(position)) {
             return;
         }
 
         Log.i("grid", "Click at " + position);
-        handleStatus(view, position);
+        handleStatus(view, position, probedTiles);
         checkForWin();
     }
 
     private boolean flagging = false;
 
-    private void handleStatus(GridRecyclerAdapter.TileViewHolder view, MineGrid.Position position) {
+    private void handleStatus(GridRecyclerAdapter.TileViewHolder view, MineGrid.Position position, Set<MineGrid.Position> probedTiles) {
+        final boolean recursing = probedTiles.size() > 1;
         final int status = getStatus(position);
         final Tile tile = mineGrid.tile(position);
         switch (status) {
             case UNKNOWN:
-                Log.i("grid", "hit unknown??");
                 break;
             case FLAGGED:
-                if (flagging) {
+                Log.i("grid", "FLAGGED (flagging = " + flagging + ", recursing = " + recursing + ")");
+                if (flagging && !recursing) {
+                    Log.i("grid", "Toggling flag");
                     tile.toggleFlag();
                     notifyItemChanged(view);
                 }
@@ -117,11 +129,28 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 break;
             case MINE_REVEAL:
             default:
-                // no mines found, reveal other neighbouring tiles that have no mines
-                // yes this is recursive
                 if (!flagging) {
                     mineGrid.tile(position).reveal(status);
-                    notifyItemChanged(view);
+                    // no mines found, explore the other ones as well
+                    if (status == 0) {
+                        for (int y = -1; y <= 1; y++) {
+                            for (int x = -1; x <= 1; x++) {
+                                onClick(view, position.add(x, y), probedTiles);
+                            }
+                        }
+                    }
+                    if (recursing) {
+                        Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                    } else {
+                        notifyItemChanged(view);
+                    }
+                } else {
+                    Log.i("grid", "DEFAULT (flagging = " + flagging + ", recursing = " + recursing + ")");
+                    if (flagging && !recursing) {
+                        Log.i("grid", "Toggling flag");
+                        tile.toggleFlag();
+                        notifyItemChanged(view);
+                    }
                 }
                 break;
         }
@@ -141,7 +170,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
             for (int x = 0; x < mineGrid.getColumns(); x++) {
                 final MineGrid.Position newPos = mineGrid.getPosition(x, y);
                 Log.i("grid", "Recursing to " + newPos);
-                onClick((GridRecyclerAdapter.TileViewHolder) Objects.requireNonNull(recyclerView.findViewHolderForLayoutPosition(newPos.getRawPosition())), probedTiles);
+                onClick((GridRecyclerAdapter.TileViewHolder) Objects.requireNonNull(recyclerView.findViewHolderForLayoutPosition(newPos.getRawPosition())), newPos, probedTiles);
             }
         }
     }

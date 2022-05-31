@@ -194,6 +194,10 @@ public class MineGrid implements Parcelable {
             return new Position(this.x + position.x, this.y + position.y);
         }
 
+        public Position add(int x, int y){
+            return new Position(this.x + x, this.y + y);
+        }
+
         private Position(int position) {
             this(position % columns, position / rows);
         }
