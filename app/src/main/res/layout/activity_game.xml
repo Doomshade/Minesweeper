@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ececec"
@@ -22,13 +23,14 @@
         android:showDividers="beginning|middle|end">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/mineCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
             android:text="0"
+            android:textColor="@color/darkest_gray"
             android:textSize="24sp" />
 
         <ImageButton
@@ -41,13 +43,14 @@
             app:srcCompat="@drawable/ic_icon_tile_flagged" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
             android:text="0"
+            android:textColor="@color/darkest_gray"
             android:textSize="24sp" />
 
     </LinearLayout>
@@ -61,9 +64,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/game_grid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbars="horizontal" />
+            android:layout_height="wrap_content" />
+
     </HorizontalScrollView>
 
 </LinearLayout>

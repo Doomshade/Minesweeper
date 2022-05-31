@@ -7,18 +7,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.os.ConfigurationCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
-public class MineGrid implements Parcelable {
+public class MineGrid implements Parcelable, Iterable<Tile> {
     private static final String L_TAG = "minegrid";
     private Tile[][] tiles;
     private final int size;
@@ -181,6 +183,31 @@ public class MineGrid implements Parcelable {
         }
     }
 
+    @NonNull
+    @Override
+    public Iterator<Tile> iterator() {
+        return new Iterator<Tile>() {
+            int x = 0;
+            int y = 0;
+
+            @Override
+            public boolean hasNext() {
+                return x != columns && y != columns;
+            }
+
+            @Override
+            public Tile next() {
+                Tile tile = tiles[y][x];
+                x++;
+                if ((x % columns) == 0) {
+                    x = 0;
+                    y++;
+                }
+                return tile;
+            }
+        };
+    }
+
     public class Position {
         public final int x;
         public final int y;
@@ -194,7 +221,7 @@ public class MineGrid implements Parcelable {
             return new Position(this.x + position.x, this.y + position.y);
         }
 
-        public Position add(int x, int y){
+        public Position add(int x, int y) {
             return new Position(this.x + x, this.y + y);
         }
 

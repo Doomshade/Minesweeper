@@ -38,6 +38,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TileViewHolder holder, int position) {
+        // holder.setIsRecyclable(false);
         holder.update(mineGrid.tile(mineGrid.getPosition(position)));
     }
 
@@ -58,37 +59,31 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             this.number = itemView.findViewById(R.id.number);
         }
 
-        public ImageView getNumberImageView() {
-            return number;
-        }
-
         private void update(final Tile tile) {
             int mineCount = tile.getNearbyMineCount();
-
-            // it's a mine or sth else
-            if (tile.isMine() && tile.isRevealed()) {
-                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
-                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found));
-                Log.i(TAG_HOLDER, "Game ends!");
+            if (tile.isFlagged()) {
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
                 return;
             }
 
-            if (tile.isFlagged()) {
-                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
-                Log.i(TAG_HOLDER, "flag!!");
+            if (!tile.isRevealed()) {
+                number.setImageDrawable(null);
+                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
+                return;
+            }
+
+            // it's a mine or sth else
+            if (tile.isMine()) {
+                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found));
                 return;
             }
 
             if (mineCount < 0) {
                 return;
             }
-
             // only update if the mine has been revealed
             imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
-            Log.i(TAG_HOLDER, "hit an empty tile which wasn't a mine");
-            // the tile was empty, reveal it
-            // the neighbouring mine count is the status
-            Log.i(TAG_HOLDER, "Status = " + mineCount);
             if (mineCount == 0) {
                 return;
             }
@@ -96,8 +91,6 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             final Resources resources = context.getResources();
             final String drawableStr = String.format("ic_icon_number_%d", mineCount);
             final int id = resources.getIdentifier(drawableStr, "drawable", context.getPackageName());
-            Log.i(TAG_HOLDER, "drawableStr = " + drawableStr);
-            Log.i(TAG_HOLDER, "ID = " + id);
 
             final Drawable drawable;
             try {
@@ -111,13 +104,17 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             }
 
             number.setImageDrawable(drawable);
-            Log.i(TAG_HOLDER, String.format("BIND %s (%d)", mineGrid.getPosition(getAdapterPosition()), getAdapterPosition()));
         }
 
         @Override
         public void onClick(View view) {
-            Log.i("recycler", "CLICK");
-            clickListener.onClick(this);
+            if (mineGrid.tile(mineGrid.getPosition(getAdapterPosition())).isClickable()) {
+                clickListener.onClick(this);
+            }
+        }
+
+        public void setClickable(boolean clickable) {
+            this.itemView.setClickable(clickable);
         }
     }
 }

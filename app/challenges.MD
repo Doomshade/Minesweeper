@@ -13,3 +13,11 @@ Bohužel, ne každý board je deterministicky řešitelný. Jednou variantou je 
 solver a generovat tolik boardů, dokud nebude jeden řešitelný. Druhou možností je si tyto boardy nechat vygenerovat
 od jiné aplikace a uložit si je do souboru. Vybral jsem druhý způsob, protože implementace vlastního solveru je poměrně
 obtížné a zdlouhavé a neexistuje na to moc dokumantace/odkazů
+
+## Problém aktualizace předmětů v RecyclerView
+Narazil jsem na problém, kdy notifyItemChanged(int) špatně aktualizuje políčko. Namísto toho se používá pomalejší notifyDataSetChanged(),
+ale funguje.
+
+## Předměty v RecyclerView se záhadně aktualizují
+Má to co dočinění s recyklací. Při scrollnutí dolů se předměty záhadně aktualizovali -- na místech, která nebyla objevená a ani se na ně nijak
+nekliknulo, se objevilo náhodné políčko.
