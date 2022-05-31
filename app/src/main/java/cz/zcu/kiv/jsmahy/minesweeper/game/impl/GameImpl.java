@@ -12,7 +12,6 @@ import java.util.StringJoiner;
 
 import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
 import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
-import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 /**
  * Implementation of the game
@@ -54,8 +53,6 @@ public class GameImpl implements Game {
     private boolean generatedMines;
     //</editor-fold>
 
-    private final MineGrid mineGrid;
-
     /**
      * Creates a new game
      *
@@ -80,7 +77,6 @@ public class GameImpl implements Game {
         this.state = new int[height][width];
         this.maxMines = (int) (width * height * 0.75);
         this.generatedMines = false;
-        this.mineGrid = new MineGrid(20);
     }
 
     /**
@@ -183,32 +179,6 @@ public class GameImpl implements Game {
         if (depth < 0 || depth > MAX_RECURSION_CALLS) {
             throw new IllegalArgumentException(String.format("Invalid depth %d. Must be <%d, %d>", depth, 0, MAX_RECURSION_CALLS));
         }
-
-        final double mineProbability = gameDifficulty.getMineProbability();
-        final Random r = new Random();
-        int mineCount = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < width; j++) {
-                double generatedValue = r.nextDouble();
-                Log.v(L_TAG, "Generated value: " + generatedValue);
-                if (generatedValue <= mineProbability) {
-                    setMine(i, j);
-                    mineCount++;
-
-                    Log.v(L_TAG, String.format("Set a mine on %d,%d (%.1f <= %.1f)",
-                            j, i, generatedValue, mineProbability));
-                    // too many mines, generate again
-                    if (mineCount > maxMines) {
-                        Log.d(L_TAG, "Generated too many mines, generating them again...");
-                        generateMines(depth - 1);
-                        return;
-                    }
-                }
-            }
-        }
-        Log.d(L_TAG, "Successfully generated mines: " + Arrays.deepToString(mineLocations));
-        Log.d(L_TAG, "Mine count: " + mineCount);
-        generatedMines = true;
     }
 
     /**
@@ -274,7 +244,7 @@ public class GameImpl implements Game {
 
     @Override
     public MineGrid getMineGrid() {
-        return mineGrid;
+        return null;
     }
 
     @NonNull

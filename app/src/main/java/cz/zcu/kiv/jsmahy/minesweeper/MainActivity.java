@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences.Editor edit = getSharedPreferences(GameImpl.GAME_VALUES, 0).edit();
-        edit.putInt(GameImpl.S_DIFFICULTY, Game.Difficulty.HARD.ordinal());
+        edit.putInt(GameImpl.S_DIFFICULTY, Game.Difficulty.EASY.ordinal());
         edit.putInt(GameImpl.S_WIDTH, 8);
         edit.apply();
 

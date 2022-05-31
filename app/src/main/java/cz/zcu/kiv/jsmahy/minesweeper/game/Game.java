@@ -68,8 +68,7 @@ public interface Game {
      */
     enum Difficulty {
         EASY,
-        MEDIUM,
-        HARD;
+        MEDIUM;
 
         public double getMineProbability() {
             return (double) (ordinal() + 1) / 5;
