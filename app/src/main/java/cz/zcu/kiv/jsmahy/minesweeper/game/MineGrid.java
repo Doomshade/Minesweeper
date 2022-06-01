@@ -29,6 +29,10 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
 
     private boolean generatedMines = false;
 
+    public Tile[][] getTiles() {
+        return Arrays.copyOf(tiles, tiles.length);
+    }
+
     public MineGrid(Game.Difficulty difficulty) {
         switch (difficulty) {
             case EASY:

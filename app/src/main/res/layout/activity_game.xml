@@ -12,46 +12,80 @@
     <LinearLayout
         android:id="@+id/topPanel"
         android:layout_width="wrap_content"
-        android:layout_height="53dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:divider="@drawable/empty_tall_divider"
+        android:divider="@drawable/empty_wide_divider"
         android:orientation="horizontal"
         android:showDividers="beginning|middle|end">
 
-        <TextView
-            android:id="@+id/mineCount"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/darkest_gray"
-            android:textSize="24sp" />
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/mineCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="4dp"
+                android:text="@string/counter_zero"
+                android:textColor="@color/darkest_gray"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:src="@drawable/ic_icon_mine_found" />
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:adjustViewBounds="true"
             android:background="#ececec"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/flag"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_icon_tile_flagged" />
 
-        <TextView
-            android:id="@+id/time"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/darkest_gray"
-            android:textSize="24sp" />
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="4dp"
+                android:text="@string/counter_zero"
+                android:textColor="@color/darkest_gray"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:src="@android:drawable/ic_lock_idle_alarm" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -59,12 +93,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:requiresFadingEdge="horizontal|vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/game_grid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:requiresFadingEdge="horizontal|vertical" />
 
     </HorizontalScrollView>
 

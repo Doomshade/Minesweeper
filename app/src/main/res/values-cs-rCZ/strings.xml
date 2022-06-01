@@ -20,5 +20,11 @@
     <string name="invalid_username">Neplatné uživatelské jméno</string>
     <string name="invalid_password">Heslo musí mít >5 znaků</string>
     <string name="login_failed">Nepodařilo se přihlásit</string>
-    <string name="img_desc">TODO</string>
+    <string name="img_desc">Počet min</string>
+    <string name="play">Hrát</string>
+    <string name="options">Možnosti</string>
+    <string name="settings">Nastavení</string>
+    <string name="scoreboard">Tabulka</string>
+    <string name="exit">Exit</string>
+    <string name="flag">Vlajka</string>
 </resources>

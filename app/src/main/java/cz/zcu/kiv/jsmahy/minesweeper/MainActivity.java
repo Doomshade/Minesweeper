@@ -1,29 +1,58 @@
 package cz.zcu.kiv.jsmahy.minesweeper;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
-import cz.zcu.kiv.jsmahy.minesweeper.game.impl.GameImpl;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ImageButton playBtn = null;
+    private ImageButton scoreBoardBtn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        SharedPreferences.Editor edit = getSharedPreferences(GameImpl.GAME_VALUES, 0).edit();
-        edit.putInt(GameImpl.S_DIFFICULTY, Game.Difficulty.EASY.ordinal());
-        edit.putInt(GameImpl.S_WIDTH, 8);
-        edit.apply();
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.hide();
+        }
+        hideSystemBars();
+        playBtn = findViewById(R.id.play);
+        playBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+            startActivity(intent);
+        });
 
-        Game g = GameImpl.instantiateGame(this);
-        g.generateMines();
 
-        Log.d("game", "Game: " + g);
-        Log.d("game", "Mines:\n" + g.printBoard());
+        scoreBoardBtn = findViewById(R.id.scoreboard);
     }
+
+    private void hideSystemBars() {
+        WindowInsetsControllerCompat windowInsetsController =
+                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+        if (windowInsetsController == null) {
+            return;
+        }
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
+    }
+
 }

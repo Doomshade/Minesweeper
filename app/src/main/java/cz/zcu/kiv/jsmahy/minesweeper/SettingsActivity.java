@@ -15,9 +15,14 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
+                    .replace(R.id.menu_item_settings, new SettingsFragment())
                     .commit();
         }
+        /*SharedPreferences.Editor edit = getSharedPreferences(GameImpl.GAME_VALUES, 0).edit();
+        edit.putInt(GameImpl.S_DIFFICULTY, Game.Difficulty.EASY.ordinal());
+        edit.putInt(GameImpl.S_WIDTH, 8);
+        edit.apply();*/
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
