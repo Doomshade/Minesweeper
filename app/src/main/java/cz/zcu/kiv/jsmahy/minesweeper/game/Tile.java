@@ -9,25 +9,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Tile implements Parcelable {
-    private boolean mine = false;
-    private boolean revealed = false;
-    private boolean flagged = false;
-    private boolean clickable = true;
-
-    private int nearbyMineCount = -1;
-
-    public Tile() {
-    }
-
-    public Tile(Parcel in) {
-        mine = in.readByte() != 0;
-        revealed = in.readByte() != 0;
-        flagged = in.readByte() != 0;
-        clickable = in.readByte() != 0;
-        nearbyMineCount = in.readInt();
-    }
-
-    public static final Creator<Tile> CREATOR = new Creator<Tile>() {
+    public static final Creator<Tile> CREATOR = new Creator<>() {
         @Override
         public Tile createFromParcel(Parcel in) {
             return new Tile(in);
@@ -38,6 +20,24 @@ public class Tile implements Parcelable {
             return new Tile[size];
         }
     };
+    private boolean mine;
+    private boolean revealed;
+    private boolean flagged;
+    private boolean clickable;
+    private boolean clickedMine;
+    private int nearbyMineCount;
+
+    public Tile() {
+        reset();
+    }
+
+    public Tile(Parcel in) {
+        mine = in.readByte() != 0;
+        revealed = in.readByte() != 0;
+        flagged = in.readByte() != 0;
+        clickable = in.readByte() != 0;
+        nearbyMineCount = in.readInt();
+    }
 
     public void setMine() {
         this.mine = true;
@@ -70,8 +70,20 @@ public class Tile implements Parcelable {
         return clickable;
     }
 
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+    }
+
     public int getNearbyMineCount() {
         return nearbyMineCount;
+    }
+
+    public void setClickedMine() {
+        clickedMine = true;
+    }
+
+    public boolean isClickedMine() {
+        return clickedMine;
     }
 
     public void reveal(@IntRange(from = 0, to = 8) int nearbyMineCount) {
@@ -110,7 +122,11 @@ public class Tile implements Parcelable {
         return Objects.hash(mine, revealed, flagged, nearbyMineCount);
     }
 
-    public void setClickable(boolean clickable) {
-        this.clickable = clickable;
+    public void reset() {
+        revealed = false;
+        flagged = false;
+        clickable = true;
+        clickedMine = false;
+        nearbyMineCount = -1;
     }
 }

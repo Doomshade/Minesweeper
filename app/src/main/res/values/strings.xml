@@ -2,7 +2,7 @@
     <string name="app_name">Minesweeper</string>
     <string name="title_activity_settings">Settings</string>
 
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Minesweeper</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
@@ -36,4 +36,11 @@
     <string name="exit">Exit</string>
     <string name="counter_zero" translatable="false">0</string>
     <string name="flag">Flag</string>
+    <string name="restart">Restart</string>
+    <string name="time">Time</string>
+    <string name="the_end">Game finished!</string>
+    <string name="you_won">You won!</string>
+    <string name="confirm">Confirm</string>
+    <string name="game">Game</string>
+    <string name="difficulty">Difficulty</string>
 </resources>

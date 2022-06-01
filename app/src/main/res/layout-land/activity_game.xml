@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ececec"
-    android:layout_margin="15dp"
     android:orientation="horizontal"
+    android:padding="15dp"
     tools:context="cz.zcu.kiv.jsmahy.minesweeper.GameActivity">
 
 
@@ -37,24 +37,21 @@
         android:layout_gravity="center_vertical"
         android:divider="@drawable/empty_tall_divider"
         android:dividerPadding="5dp"
-        android:orientation="vertical"
         android:showDividers="beginning|middle|end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.575"
-        app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -64,9 +61,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="4dp"
+                android:gravity="center"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="28sp" />
+                android:textSize="@dimen/l_text_size" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -82,13 +80,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.50"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/time"
@@ -98,11 +95,12 @@
                 android:layout_marginEnd="4dp"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="28sp" />
+                android:textSize="@dimen/l_text_size" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:src="@android:drawable/ic_lock_idle_alarm" />
@@ -110,12 +108,12 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/flag"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:background="#ececec"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/flag"
             android:gravity="center"
             android:scaleType="fitCenter"
@@ -126,6 +124,32 @@
             app:srcCompat="@drawable/ic_icon_tile_flagged" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/restart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/restart"
+            android:cropToPadding="true"
+            android:foregroundGravity="center"
+            android:src="@android:drawable/ic_menu_rotate" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

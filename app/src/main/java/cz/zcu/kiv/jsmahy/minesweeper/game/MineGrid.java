@@ -21,17 +21,23 @@ import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class MineGrid implements Parcelable, Iterable<Tile> {
+    public static final Creator<MineGrid> CREATOR = new Creator<MineGrid>() {
+        @Override
+        public MineGrid createFromParcel(Parcel in) {
+            return new MineGrid(in);
+        }
+
+        @Override
+        public MineGrid[] newArray(int size) {
+            return new MineGrid[size];
+        }
+    };
     private static final String L_TAG = "minegrid";
-    private Tile[][] tiles;
     private final int size;
     private final int columns;
     private final int rows;
-
+    private Tile[][] tiles;
     private boolean generatedMines = false;
-
-    public Tile[][] getTiles() {
-        return Arrays.copyOf(tiles, tiles.length);
-    }
 
     public MineGrid(Game.Difficulty difficulty) {
         switch (difficulty) {
@@ -62,26 +68,15 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         }
     }
 
-    public static final Creator<MineGrid> CREATOR = new Creator<MineGrid>() {
-        @Override
-        public MineGrid createFromParcel(Parcel in) {
-            return new MineGrid(in);
-        }
-
-        @Override
-        public MineGrid[] newArray(int size) {
-            return new MineGrid[size];
-        }
-    };
+    public Tile[][] getTiles() {
+        return Arrays.copyOf(tiles, tiles.length);
+    }
 
     public void setTiles(Tile[][] tiles) {
         this.tiles = tiles;
     }
 
     public void generateMines(Context context) {
-        if (generatedMines) {
-            return;
-        }
         Log.i("minegrid", "Generating mines...");
         final String fileName = String.format(ConfigurationCompat.getLocales(context.getResources().getConfiguration()).get(0),
                 "%dx%d.txt", columns, rows);
@@ -212,29 +207,86 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         };
     }
 
-    public class Position {
+    public Position getPosition(int position) {
+        return new Position(this, position);
+    }
+
+    public Position getPosition(int x, int y) {
+        return new Position(this, x, y);
+    }
+
+    public int getNearbyMineCount(final Position position) {
+        if (!isInBounds(position)) {
+            return UNKNOWN;
+        }
+        Log.i("minegrid", "Searching neighbours at " + position);
+        int bombCount = 0;
+        Tile[][] neighbours = getNeighbours(position);
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                Tile tile = neighbours[y][x];
+                if (tile != null && tile.isMine()) {
+                    bombCount++;
+                    Log.i("minegrid", "Found bomb at " + new Position(this, position.x + x - 1, position.y + y - 1));
+                }
+            }
+        }
+        return bombCount;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MineGrid.class.getSimpleName() + "[", "]")
+                .add("tiles=" + Arrays.toString(tiles))
+                .add("size=" + size)
+                .add("columns=" + columns)
+                .add("rows=" + rows)
+                .add("generatedMines=" + generatedMines)
+                .toString();
+    }
+
+    public static class Position implements Parcelable {
+        public static final Creator<Position> CREATOR = new Creator<>() {
+            @Override
+            public Position createFromParcel(Parcel in) {
+                return new Position(in);
+            }
+
+            @Override
+            public Position[] newArray(int size) {
+                return new Position[size];
+            }
+        };
         public final int x;
         public final int y;
+        private final MineGrid mineGrid;
 
-        private Position(int x, int y) {
+        private Position(final MineGrid mineGrid, int x, int y) {
             this.x = x;
             this.y = y;
+            this.mineGrid = mineGrid;
+        }
+
+        protected Position(Parcel in) {
+            mineGrid = in.readParcelable(MineGrid.class.getClassLoader());
+            x = in.readInt();
+            y = in.readInt();
+        }
+
+        private Position(final MineGrid mineGrid, int position) {
+            this(mineGrid, position % mineGrid.columns, position / mineGrid.rows);
         }
 
         public Position add(Position position) {
-            return new Position(this.x + position.x, this.y + position.y);
+            return new Position(mineGrid, this.x + position.x, this.y + position.y);
         }
 
         public Position add(int x, int y) {
-            return new Position(this.x + x, this.y + y);
-        }
-
-        private Position(int position) {
-            this(position % columns, position / rows);
+            return new Position(mineGrid, this.x + x, this.y + y);
         }
 
         public int getRawPosition() {
-            return x + y * rows;
+            return x + y * mineGrid.rows;
         }
 
         @Override
@@ -257,43 +309,17 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         public int hashCode() {
             return Objects.hash(x, y);
         }
-    }
 
-    public Position getPosition(int position) {
-        return new Position(position);
-    }
-
-    public Position getPosition(int x, int y) {
-        return new Position(x, y);
-    }
-
-    public int getNearbyMineCount(final Position position) {
-        if (!isInBounds(position)) {
-            return UNKNOWN;
+        @Override
+        public int describeContents() {
+            return 0;
         }
-        Log.i("minegrid", "Searching neighbours at " + position);
-        int bombCount = 0;
-        Tile[][] neighbours = getNeighbours(position);
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 3; x++) {
-                Tile tile = neighbours[y][x];
-                if (tile != null && tile.isMine()) {
-                    bombCount++;
-                    Log.i("minegrid", "Found bomb at " + new Position(position.x + x - 1, position.y + y - 1));
-                }
-            }
-        }
-        return bombCount;
-    }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", MineGrid.class.getSimpleName() + "[", "]")
-                .add("tiles=" + Arrays.toString(tiles))
-                .add("size=" + size)
-                .add("columns=" + columns)
-                .add("rows=" + rows)
-                .add("generatedMines=" + generatedMines)
-                .toString();
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeParcelable(mineGrid, i);
+            parcel.writeInt(x);
+            parcel.writeInt(y);
+        }
     }
 }

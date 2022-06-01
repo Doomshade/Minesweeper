@@ -75,7 +75,11 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             // it's a mine or sth else
             if (tile.isMine()) {
                 imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
-                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found));
+                if (tile.isClickedMine()) {
+                    number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found_red));
+                } else {
+                    number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found));
+                }
                 return;
             }
 

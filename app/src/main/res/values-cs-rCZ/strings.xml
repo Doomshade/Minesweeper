@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Hledání min</string>
     <string name="title_activity_settings">Nastavení</string>
-    <string name="title_activity_main">Hlavní menu</string>
+    <string name="title_activity_main">Hledání min</string>
     <string name="messages_header">Zprávy</string>
     <string name="sync_header">Synchronizovat</string>
     <string name="signature_title">Podpis</string>
@@ -25,6 +25,13 @@
     <string name="options">Možnosti</string>
     <string name="settings">Nastavení</string>
     <string name="scoreboard">Tabulka</string>
-    <string name="exit">Exit</string>
+    <string name="exit">Zavřít</string>
     <string name="flag">Vlajka</string>
+    <string name="restart">Restart</string>
+    <string name="time">Čas</string>
+    <string name="the_end">Konec hry!</string>
+    <string name="you_won">Vyhrál jste!</string>
+    <string name="confirm">Potvrdit</string>
+    <string name="game">Hra</string>
+    <string name="difficulty">Obtížnost</string>
 </resources>

@@ -1,15 +1,9 @@
 package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
@@ -20,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton playBtn = null;
     private ImageButton scoreBoardBtn = null;
+    private ImageButton exitBtn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +31,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(intent);
         });
-
-
         scoreBoardBtn = findViewById(R.id.scoreboard);
+        scoreBoardBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+            startActivity(intent);
+        });
+        exitBtn = findViewById(R.id.exit);
+        exitBtn.setOnClickListener(view -> finish());
     }
 
     private void hideSystemBars() {

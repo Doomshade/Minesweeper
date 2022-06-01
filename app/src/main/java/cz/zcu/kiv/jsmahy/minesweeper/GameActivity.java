@@ -1,14 +1,18 @@
 package cz.zcu.kiv.jsmahy.minesweeper;
 
+import static cz.zcu.kiv.jsmahy.minesweeper.ScoreboardActivity.PREFS;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,28 +30,29 @@ import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
 import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 public class GameActivity extends AppCompatActivity implements ItemClickListener {
+    private static final Game.Difficulty difficulty = Game.Difficulty.EASY;
+    private final Handler timerHandler = new Handler();
     private RecyclerView recyclerView = null;
     private GridRecyclerAdapter adapter = null;
     private MineGrid mineGrid = null;
     private ImageButton flagButton = null;
-    private Button restartButton = null;
+    private ImageButton restartButton = null;
+    private MineGrid.Position clickedMine = null;
     private int mineCount = 0;
     private int time = 0;
     private boolean started = false;
     private TextView mineCountTv = null;
     private TextView timeTv = null;
-    private static final Game.Difficulty difficulty = Game.Difficulty.MEDIUM;
-
-    private final Handler timerHandler = new Handler();
-    private boolean gameFinish = false;
     private final Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             time++;
-            timeTv.setText(String.valueOf(time));
-            timerHandler.postDelayed(this, 1000);
+            updateTime();
+            timerHandler.postDelayed(this, 1000L);
         }
     };
+    private boolean gameFinish = false;
+    private boolean flagging = false;
 
     private void hideSystemBars() {
         WindowInsetsControllerCompat windowInsetsController =
@@ -64,8 +69,8 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_game);
         ActionBar ab = getSupportActionBar();
 
@@ -73,7 +78,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
             ab.hide();
         }
         hideSystemBars();
-        if (savedInstanceState == null) {
+        if (state == null) {
             mineGrid = new MineGrid(difficulty);
             switch (difficulty) {
                 case EASY:
@@ -84,26 +89,28 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                     break;
             }
         } else {
-            mineGrid = savedInstanceState.getParcelable("minegrid");
-            mineCount = savedInstanceState.getInt("mineCount");
-            time = savedInstanceState.getInt("time");
-            gameFinish = savedInstanceState.getBoolean("gameFinish");
-            started = savedInstanceState.getBoolean("started");
-            flagging = savedInstanceState.getBoolean("flagging");
+            mineGrid = state.getParcelable("minegrid");
+            mineCount = state.getInt("mineCount");
+            time = state.getInt("time");
+            gameFinish = state.getBoolean("gameFinish");
+            started = state.getBoolean("started");
+            flagging = state.getBoolean("flagging");
+            clickedMine = state.getParcelable("clickedBomb");
+
         }
         mineGrid.generateMines(getApplicationContext());
 
         mineCountTv = findViewById(R.id.mineCount);
-        mineCountTv.setText(String.valueOf(mineCount));
+        updateMines();
 
         timeTv = findViewById(R.id.time);
-        timeTv.setText(String.valueOf(time));
+        updateTime();
 
         if (started) {
-            timerHandler.post(timerRunnable);
+            timerHandler.postDelayed(timerRunnable, 1000L);
         }
 
-        this.flagButton = findViewById(R.id.imageButton);
+        this.flagButton = findViewById(R.id.flag);
         this.flagButton.setOnClickListener(view -> {
             flagging = !flagging;
             flagButton.setImageResource(flagging ? R.drawable.ic_icon_tile_flagged_red : R.drawable.ic_icon_tile_flagged);
@@ -120,6 +127,38 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         if (gameFinish) {
             finishGame();
         }
+
+        restartButton = findViewById(R.id.restart);
+
+        restartButton.setOnClickListener(view -> {
+            mineGrid.generateMines(getApplicationContext());
+
+            flagging = false;
+            switch (difficulty) {
+                case EASY:
+                    mineCount = 10;
+                    break;
+                case MEDIUM:
+                    mineCount = 40;
+                    break;
+            }
+            timerHandler.removeCallbacks(timerRunnable);
+            updateMines();
+            started = false;
+            time = 0;
+            updateTime();
+            gameFinish = false;
+            flagButton.setClickable(true);
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void updateMines() {
+        mineCountTv.setText(String.valueOf(mineCount));
+    }
+
+    private void updateTime() {
+        timeTv.setText(String.valueOf(time));
     }
 
     private void triggerRebirth() {
@@ -136,7 +175,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         state.putBoolean("gameFinish", gameFinish);
         state.putBoolean("started", started);
         state.putBoolean("flagging", flagging);
-
+        state.putParcelable("clickedBomb", clickedMine);
     }
 
     private int getStatus(MineGrid.Position position) {
@@ -168,7 +207,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     public void onClick(GridRecyclerAdapter.TileViewHolder view) {
         if (!started) {
             started = true;
-            timerHandler.post(timerRunnable);
+            timerHandler.postDelayed(timerRunnable, 1000L);
         }
         onClick(view, new HashSet<>());
     }
@@ -178,8 +217,6 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         handleStatus(position, probedTiles);
         checkForWin();
     }
-
-    private boolean flagging = false;
 
     private void handleStatus(MineGrid.Position position, Set<MineGrid.Position> probedTiles) {
         if (!mineGrid.isInBounds(position) || !probedTiles.add(position)) {
@@ -202,6 +239,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 break;
             case MINE_REVEAL:
                 if (!flagging) {
+                    clickedMine = position;
                     Toast.makeText(getApplicationContext(), "Konec hry!", Toast.LENGTH_LONG).show();
                     finishGame();
                 }
@@ -241,6 +279,11 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 }
             }
         }
+        if (clickedMine != null) {
+            Tile tile = mineGrid.tile(clickedMine);
+            tile.setClickedMine();
+            adapter.notifyItemChanged(clickedMine.getRawPosition(), tile);
+        }
         for (int i = 0; i < recyclerView.getChildCount(); i++) {
             GridRecyclerAdapter.TileViewHolder tileViewHolder = (GridRecyclerAdapter.TileViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
             if (tileViewHolder != null) {
@@ -260,10 +303,49 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         } else {
             mineCount++;
         }
-        mineCountTv.setText(String.valueOf(mineCount));
+        updateMines();
     }
 
     private void checkForWin() {
+        if (mineCount > 0) {
+            return;
+        }
+        for (Tile tile : mineGrid) {
+            if (!tile.isRevealed() && !tile.isMine()) {
+                return;
+            }
+        }
+        finishGame();
+        saveTime();
+        Toast.makeText(getApplicationContext(), R.string.the_end, Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
+        builder.setTitle(R.string.the_end)
+                .setMessage(R.string.you_won)
+                .setNeutralButton(R.string.confirm, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+    }
+
+    private void saveTime() {
+        SharedPreferences prefs = getSharedPreferences(PREFS, 0);
+        int gameCount = prefs.getInt("gameCount", -1) + 1;
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putInt("gameCount", gameCount);
+        edit.putInt("difficulty-" + gameCount, difficulty.ordinal());
+        edit.putInt("time-" + gameCount, time);
+        edit.apply();
+        logsth();
+    }
+
+    private void logsth() {
+        SharedPreferences prefs = getSharedPreferences(PREFS, 0);
+        int gameCount = prefs.getInt("gameCount", -1) + 1;
+        Log.i("game", "gameCount = " + gameCount);
+        for (int i = 0; i < gameCount; i++) {
+            Log.i("game", "Game #" + i);
+            Log.i("game", "difficulty = " + Game.Difficulty.values()[prefs.getInt("difficulty-" + i, 0)]);
+            Log.i("game", "time = " + prefs.getInt("time-" + i, 0) + "\n");
+        }
     }
 }
