@@ -2,6 +2,7 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 
 import static cz.zcu.kiv.jsmahy.minesweeper.ScoreboardActivity.PREFS;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,6 +20,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
 import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 public class GameActivity extends AppCompatActivity implements ItemClickListener {
-    private static final Game.Difficulty difficulty = Game.Difficulty.EASY;
+    private static final Game.Difficulty difficulty = Game.Difficulty.MEDIUM;
     private final Handler timerHandler = new Handler();
     private RecyclerView recyclerView = null;
     private GridRecyclerAdapter adapter = null;
@@ -80,14 +82,8 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         hideSystemBars();
         if (state == null) {
             mineGrid = new MineGrid(difficulty);
-            switch (difficulty) {
-                case EASY:
-                    mineCount = 10;
-                    break;
-                case MEDIUM:
-                    mineCount = 40;
-                    break;
-            }
+            mineCount = difficulty.getMineCount();
+            mineGrid.generateMines(getApplicationContext());
         } else {
             mineGrid = state.getParcelable("minegrid");
             mineCount = state.getInt("mineCount");
@@ -96,9 +92,8 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
             started = state.getBoolean("started");
             flagging = state.getBoolean("flagging");
             clickedMine = state.getParcelable("clickedBomb");
-
         }
-        mineGrid.generateMines(getApplicationContext());
+
 
         mineCountTv = findViewById(R.id.mineCount);
         updateMines();
@@ -129,27 +124,17 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         }
 
         restartButton = findViewById(R.id.restart);
-
         restartButton.setOnClickListener(view -> {
-            mineGrid.generateMines(getApplicationContext());
-
-            flagging = false;
-            switch (difficulty) {
-                case EASY:
-                    mineCount = 10;
-                    break;
-                case MEDIUM:
-                    mineCount = 40;
-                    break;
+            if (gameFinish) {
+                triggerRebirth();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.restart_prompt_title)
+                        .setMessage(R.string.restart_prompt_message)
+                        .setPositiveButton(R.string.answer_yes, (dialogInterface, i) -> triggerRebirth())
+                        .setNegativeButton(R.string.answer_no, ((dialogInterface, i) -> dialogInterface.cancel()))
+                        .show();
             }
-            timerHandler.removeCallbacks(timerRunnable);
-            updateMines();
-            started = false;
-            time = 0;
-            updateTime();
-            gameFinish = false;
-            flagButton.setClickable(true);
-            adapter.notifyDataSetChanged();
         });
     }
 
@@ -334,6 +319,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         edit.putInt("gameCount", gameCount);
         edit.putInt("difficulty-" + gameCount, difficulty.ordinal());
         edit.putInt("time-" + gameCount, time);
+        edit.putString("date-" + gameCount, LocalDateTime.now().format(DateTimeFormatter.ofPattern("d. M. yyyy HH:mm:ss")));
         edit.apply();
         logsth();
     }

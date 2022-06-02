@@ -9,8 +9,8 @@
     <ImageButton
         android:id="@+id/play"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/big_btn_height"
-        android:layout_marginTop="212dp"
+        android:layout_height="@dimen/main_big_btn_height"
+        android:layout_marginTop="@dimen/main_margin_top"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/play"
@@ -23,7 +23,7 @@
     <ImageButton
         android:id="@+id/scoreboard"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/small_btn_height"
+        android:layout_height="@dimen/main_small_btn_height"
         android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -37,7 +37,7 @@
     <ImageButton
         android:id="@+id/settings"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/small_btn_height"
+        android:layout_height="@dimen/main_small_btn_height"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -53,7 +53,7 @@
     <ImageButton
         android:id="@+id/exit"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/small_btn_height"
+        android:layout_height="@dimen/main_small_btn_height"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"

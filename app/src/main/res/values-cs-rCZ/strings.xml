@@ -34,4 +34,12 @@
     <string name="confirm">Potvrdit</string>
     <string name="game">Hra</string>
     <string name="difficulty">Obtížnost</string>
+    <string name="date">Datum</string>
+    <string name="difficulty_0">Jednoduchá</string>
+    <string name="difficulty_1">Střední</string>
+    <string name="answer_yes">Ano</string>
+    <string name="answer_no">Ne</string>
+    <string name="restart_prompt_message">Opravdu chcete restartovat hru?</string>
+    <string name="restart_prompt_title">Restart</string>
+
 </resources>

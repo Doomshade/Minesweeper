@@ -3,13 +3,16 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import cz.zcu.kiv.jsmahy.minesweeper.game.Game;
 
@@ -26,33 +29,43 @@ public class ScoreboardActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS, 0);
         int gameCount = prefs.getInt("gameCount", -1) + 1;
         Log.i("game", "gameCount = " + gameCount);
+
+        TableRow baseRow = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
+        tableLayout.addView(baseRow);
+        tableLayout.addView(getLayoutInflater().inflate(R.layout.horizontal_line, baseRow, false));
+        
         for (int i = 0; i < gameCount; i++) {
-            TableRow row = new TableRow(getApplicationContext());
-            addGameId(i, row);
+            TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
+            // addGameId(i, row);
             addDifficulty(prefs, i, row);
             addTime(prefs, i, row);
+            addDate(prefs, i, row);
             tableLayout.addView(row);
+            // tableLayout.addView(getLayoutInflater().inflate(R.layout.horizontal_line, tableLayout, false));
         }
     }
 
-    private void addGameId(int i, TableRow row) {
-        TextView gameIdTv = new TextView(getApplicationContext());
-        String game = getResources().getString(R.string.game);
-        gameIdTv.setText(MessageFormat.format("{0} #{1}", game, i));
-        row.addView(gameIdTv);
+    private void addDate(SharedPreferences prefs, int i, TableRow row) {
+        TextView dateTv = row.findViewById(R.id.row_date);
+        rescaleTextView(dateTv);
+        dateTv.setText(prefs.getString("date-" + i, LocalDateTime.MIN.format(DateTimeFormatter.ofPattern("d. M. yyyy HH:mm:ss"))));
+    }
+
+    private void rescaleTextView(TextView tv) {
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getApplicationContext().getResources().getDimension(R.dimen.row_text_size));
     }
 
     private void addDifficulty(SharedPreferences prefs, int i, TableRow row) {
-        TextView difficultyTv = new TextView(getApplicationContext());
-        String difficulty = getResources().getString(R.string.difficulty);
-        difficultyTv.setText(MessageFormat.format("{0}: {1}", difficulty, Game.Difficulty.values()[prefs.getInt("difficulty-" + i, 0)]));
-        row.addView(difficultyTv);
+        TextView difficultyTv = row.findViewById(R.id.row_difficulty);
+        rescaleTextView(difficultyTv);
+        Game.Difficulty difficulty = Game.Difficulty.values()[prefs.getInt("difficulty-" + i, 0)];
+        difficultyTv.setText(difficulty.toString(getApplicationContext()));
+        // tableLayout.addView(getLayoutInflater().inflate(R.layout.vertical_line, tableLayout, false));
     }
 
     private void addTime(SharedPreferences prefs, int i, TableRow row) {
-        TextView timeTv = new TextView(getApplicationContext());
-        String time = getResources().getString(R.string.time);
-        timeTv.setText(MessageFormat.format("{0}: {1}", time, prefs.getInt("time-" + i, 0)));
-        row.addView(timeTv);
+        TextView timeTv = row.findViewById(R.id.row_time);
+        rescaleTextView(timeTv);
+        timeTv.setText(LocalTime.ofSecondOfDay(prefs.getInt("time-" + i, 0)).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 }

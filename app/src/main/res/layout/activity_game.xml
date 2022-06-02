@@ -10,77 +10,89 @@
     android:padding="10dp"
     tools:context="cz.zcu.kiv.jsmahy.minesweeper.GameActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:divider="@drawable/empty_wide_divider"
-        android:orientation="horizontal"
-        android:showDividers="beginning|middle|end"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/mineGridWrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
+            android:id="@+id/mineCountLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="@dimen/game_top_panel_sides_margin"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/mineCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/game_text_icon_margin"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="@dimen/p_text_size" />
+                android:textSize="@dimen/game_text_size" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="@dimen/game_hint_icon_size"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:src="@drawable/ic_icon_mine_found" />
 
+
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/game_icon_size"
+            android:layout_height="@dimen/game_icon_size"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/flag"
             android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_icon_tile_flagged" />
 
-
         <LinearLayout
+            android:id="@+id/timeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/game_top_panel_sides_margin"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/game_text_icon_margin"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="@dimen/p_text_size" />
+                android:textSize="@dimen/game_text_size" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="@dimen/game_hint_icon_size"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
@@ -90,10 +102,12 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView2"
+        android:id="@+id/mineGridWrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -112,20 +126,20 @@
     </HorizontalScrollView>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/bottomPanel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/game_icon_size"
         android:layout_gravity="center"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2">
+        app:layout_constraintTop_toBottomOf="@+id/mineGridWrapper">
 
         <ImageButton
             android:id="@+id/restart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"

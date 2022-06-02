@@ -7,7 +7,9 @@
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/default_button.xml" value="0.1975" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/default_button_pressed.xml" value="0.1975" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/default_button_selector.xml" value="0.1975" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_divider.xml" value="0.181" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_tall_divider.xml" value="0.2535" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_wide_divider.xml" value="0.181" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_button_settings.xml" value="0.169" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_mine_detonated.xml" value="0.176" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_mine_found.xml" value="0.264" />
@@ -33,8 +35,11 @@
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/activity_scoreboard.xml" value="0.259375" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/cell.xml" value="0.4" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/fragment_details_menu.xml" value="0.16979166666666667" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/horizontal_line.xml" value="0.11770833333333333" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/scoreboard_table_row.xml" value="0.4" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/settings_activity.xml" value="0.259375" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/toolbar.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout/vertical_line.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/menu/menu.xml" value="0.1" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2045" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2045" />

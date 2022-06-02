@@ -2,6 +2,7 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.ActionBar;
@@ -25,7 +26,10 @@ public class MainActivity extends AppCompatActivity {
         if (ab != null) {
             ab.hide();
         }
-        hideSystemBars();
+        // hideSystemBars();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                View.SYSTEM_UI_FLAG_FULLSCREEN);
         playBtn = findViewById(R.id.play);
         playBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
@@ -41,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hideSystemBars() {
+        View decorView = getWindow().getDecorView();
         WindowInsetsControllerCompat windowInsetsController =
-                ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+                ViewCompat.getWindowInsetsController(decorView);
         if (windowInsetsController == null) {
             return;
         }

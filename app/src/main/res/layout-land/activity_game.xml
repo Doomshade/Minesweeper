@@ -12,7 +12,7 @@
 
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+        android:id="@+id/mineGridWrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -34,12 +34,8 @@
         android:id="@+id/topPanel"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:divider="@drawable/empty_tall_divider"
-        android:dividerPadding="5dp"
-        android:showDividers="beginning|middle|end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toStartOf="@+id/mineGridWrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -47,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/game_top_panel_sides_margin"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
@@ -60,14 +56,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/game_text_icon_margin"
                 android:gravity="center"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="@dimen/l_text_size" />
+                android:textSize="@dimen/game_text_size" />
 
             <ImageView
-                android:layout_width="24dp"
+                android:layout_width="@dimen/game_hint_icon_size"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
@@ -80,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="@dimen/game_top_panel_sides_margin"
             android:layout_weight="1"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,13 +88,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/game_text_icon_margin"
                 android:text="@string/counter_zero"
                 android:textColor="@color/darkest_gray"
-                android:textSize="@dimen/l_text_size" />
+                android:textSize="@dimen/game_text_size" />
 
             <ImageView
-                android:layout_width="24dp"
+                android:layout_width="@dimen/game_hint_icon_size"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
@@ -109,8 +105,8 @@
 
         <ImageButton
             android:id="@+id/flag"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/game_icon_size"
+            android:layout_height="@dimen/game_icon_size"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -125,22 +121,22 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomPanel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/horizontalScrollView"
+        app:layout_constraintStart_toEndOf="@+id/mineGridWrapper"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/restart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -149,7 +145,7 @@
             android:foregroundGravity="center"
             android:src="@android:drawable/ic_menu_rotate" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

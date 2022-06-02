@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -36,6 +37,7 @@ public class Tile implements Parcelable {
         revealed = in.readByte() != 0;
         flagged = in.readByte() != 0;
         clickable = in.readByte() != 0;
+        clickedMine = in.readByte() != 0;
         nearbyMineCount = in.readInt();
     }
 
@@ -56,12 +58,14 @@ public class Tile implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return new StringJoiner(", ", Tile.class.getSimpleName() + "[", "]")
                 .add("mine=" + mine)
                 .add("revealed=" + revealed)
                 .add("flagged=" + flagged)
                 .add("clickable=" + clickable)
+                .add("clickedMine=" + clickedMine)
                 .add("nearbyMineCount=" + nearbyMineCount)
                 .toString();
     }
@@ -106,6 +110,7 @@ public class Tile implements Parcelable {
         parcel.writeByte(this.revealed ? (byte) 1 : 0);
         parcel.writeByte(this.flagged ? (byte) 1 : 0);
         parcel.writeByte(this.clickable ? (byte) 1 : 0);
+        parcel.writeByte(this.clickedMine ? (byte) 1 : 0);
         parcel.writeInt(nearbyMineCount);
     }
 
@@ -114,12 +119,12 @@ public class Tile implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tile tile = (Tile) o;
-        return mine == tile.mine && revealed == tile.revealed && flagged == tile.flagged && nearbyMineCount == tile.nearbyMineCount;
+        return mine == tile.mine && revealed == tile.revealed && flagged == tile.flagged && clickable == tile.clickable && clickedMine == tile.clickedMine && nearbyMineCount == tile.nearbyMineCount;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mine, revealed, flagged, nearbyMineCount);
+        return Objects.hash(mine, revealed, flagged, clickable, clickedMine, nearbyMineCount);
     }
 
     public void reset() {

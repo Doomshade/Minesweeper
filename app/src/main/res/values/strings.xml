@@ -43,4 +43,11 @@
     <string name="confirm">Confirm</string>
     <string name="game">Game</string>
     <string name="difficulty">Difficulty</string>
+    <string name="date">Date</string>
+    <string name="difficulty_0">Easy</string>
+    <string name="difficulty_1">Medium</string>
+    <string name="answer_yes">Yes</string>
+    <string name="answer_no">No</string>
+    <string name="restart_prompt_message">Do you really wish to restart the game?</string>
+    <string name="restart_prompt_title">Restart</string>
 </resources>

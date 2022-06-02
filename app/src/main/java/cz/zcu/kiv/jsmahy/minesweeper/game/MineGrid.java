@@ -40,18 +40,8 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
     private boolean generatedMines = false;
 
     public MineGrid(Game.Difficulty difficulty) {
-        switch (difficulty) {
-            case EASY:
-                this.rows = 9;
-                this.columns = 9;
-                break;
-            case MEDIUM:
-                this.rows = 16;
-                this.columns = 16;
-                break;
-            default:
-                throw new RuntimeException("Invalid difficulty");
-        }
+        this.rows = difficulty.getRows();
+        this.columns = difficulty.getColumns();
         this.size = rows * columns;
     }
 
