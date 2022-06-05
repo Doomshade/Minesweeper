@@ -39,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     private MineGrid mineGrid = null;
     private ImageButton flagButton = null;
     private ImageButton restartButton = null;
+    private ImageButton backButton = null;
     private MineGrid.Position clickedMine = null;
     private int mineCount = 0;
     private int time = 0;
@@ -136,6 +137,9 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                         .show();
             }
         });
+
+        backButton = findViewById(R.id.back);
+        backButton.setOnClickListener(view -> finish());
     }
 
     private void updateMines() {
@@ -161,7 +165,9 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         state.putBoolean("started", started);
         state.putBoolean("flagging", flagging);
         state.putParcelable("clickedBomb", clickedMine);
+        SharedPreferences prefs = getSharedPreferences("last_game", MODE_PRIVATE);
     }
+
 
     private int getStatus(MineGrid.Position position) {
         if (!mineGrid.isInBounds(position)) {
@@ -189,27 +195,31 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     }
 
     @Override
-    public void onClick(GridRecyclerAdapter.TileViewHolder view) {
+    public void onClick(GridRecyclerAdapter.TileViewHolder view, boolean longClick) {
         if (!started) {
             started = true;
             timerHandler.postDelayed(timerRunnable, 1000L);
         }
-        onClick(view, new HashSet<>());
+        onClick(view, new HashSet<>(), longClick);
     }
 
-    public void onClick(GridRecyclerAdapter.TileViewHolder view, Set<MineGrid.Position> probedTiles) {
+    public void onClick(GridRecyclerAdapter.TileViewHolder view, Set<MineGrid.Position> probedTiles, boolean longClick) {
         MineGrid.Position position = mineGrid.getPosition(view.getAdapterPosition());
-        handleStatus(position, probedTiles);
+        handleStatus(position, probedTiles, longClick);
         checkForWin();
     }
 
-    private void handleStatus(MineGrid.Position position, Set<MineGrid.Position> probedTiles) {
+    private void handleStatus(MineGrid.Position position, Set<MineGrid.Position> probedTiles, boolean longClick) {
         if (!mineGrid.isInBounds(position) || !probedTiles.add(position)) {
             return;
         }
 
         final boolean recursing = probedTiles.size() > 1;
         final int status = getStatus(position);
+        final boolean prevFlagging = flagging;
+        if (longClick) {
+            flagging = true;
+        }
         final Tile tile = mineGrid.tile(position);
         switch (status) {
             case UNKNOWN:
@@ -235,17 +245,19 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                     if (status == 0) {
                         for (int y = -1; y <= 1; y++) {
                             for (int x = -1; x <= 1; x++) {
-                                handleStatus(position.add(x, y), probedTiles);
+                                handleStatus(position.add(x, y), probedTiles, false);
                             }
                         }
                     }
-
                 } else {
                     if (!recursing) {
                         toggleFlag(tile);
                     }
                 }
                 break;
+        }
+        if (longClick) {
+            flagging = prevFlagging;
         }
         adapter.notifyItemChanged(position.getRawPosition(), mineGrid.tile(position));
     }

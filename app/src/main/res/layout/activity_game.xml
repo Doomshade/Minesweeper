@@ -125,10 +125,10 @@
 
     </HorizontalScrollView>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomPanel"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/game_icon_size"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,17 +136,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mineGridWrapper">
 
-        <ImageButton
-            android:id="@+id/restart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/restart"
-            android:cropToPadding="true"
-            android:foregroundGravity="center"
-            android:src="@android:drawable/ic_menu_rotate" />
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/restart"
+        android:layout_width="@dimen/game_icon_size"
+        android:layout_height="@dimen/game_icon_size"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back"
+        android:cropToPadding="true"
+        android:foregroundGravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_icon_button_restart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mineGridWrapper" />
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="@dimen/game_icon_size"
+        android:layout_height="@dimen/game_icon_size"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/restart"
+        android:cropToPadding="true"
+        android:foregroundGravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_icon_button_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mineGridWrapper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

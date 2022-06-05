@@ -10,7 +10,9 @@
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_divider.xml" value="0.181" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_tall_divider.xml" value="0.2535" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/empty_wide_divider.xml" value="0.181" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_background.xml" value="0.1755" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_button_settings.xml" value="0.169" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_flag.xml" value="0.1755" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_mine_detonated.xml" value="0.176" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_mine_found.xml" value="0.264" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_mine_found_red.xml" value="0.214" />
@@ -24,6 +26,9 @@
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_tile_hidden.xml" value="0.119" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_icon_tile_white.xml" value="0.2535" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/font/aaa.xml" value="0.14791666666666667" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/font/dolce.xml" value="0.28958333333333336" />
+        <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/font/fulbo.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout-land/activity_game.xml" value="0.21957671957671956" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout-land/activity_main.xml" value="0.21869488536155202" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/Minesweeper/app/src/main/res/layout-land/cell.xml" value="0.21869488536155202" />

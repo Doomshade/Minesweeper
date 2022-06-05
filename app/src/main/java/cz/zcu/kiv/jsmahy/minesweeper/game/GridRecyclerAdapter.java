@@ -48,13 +48,15 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
     }
 
 
-    public class TileViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class TileViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private final ImageView imageTile;
         private final ImageView number;
 
         public TileViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView.setOnClickListener(this);
+            this.itemView.setLongClickable(true);
+            this.itemView.setOnLongClickListener(this);
             this.imageTile = itemView.findViewById(R.id.tile);
             this.number = itemView.findViewById(R.id.number);
         }
@@ -113,12 +115,21 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
         @Override
         public void onClick(View view) {
             if (mineGrid.tile(mineGrid.getPosition(getAdapterPosition())).isClickable()) {
-                clickListener.onClick(this);
+                clickListener.onClick(this, false);
             }
         }
 
         public void setClickable(boolean clickable) {
             this.itemView.setClickable(clickable);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (mineGrid.tile(mineGrid.getPosition(getAdapterPosition())).isClickable()) {
+                clickListener.onClick(this, true);
+                return true;
+            }
+            return false;
         }
     }
 }
