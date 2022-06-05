@@ -127,9 +127,6 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
 
         restartButton = findViewById(R.id.restart);
         restartButton.setOnClickListener(view -> {
-            if (!started) {
-                return;
-            }
             if (gameFinish) {
                 triggerRebirth();
                 return;
