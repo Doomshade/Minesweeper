@@ -37,6 +37,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
     private final int columns;
     private final int rows;
     private Tile[][] tiles;
+    // TODO add an int matrix to determine the default state of mine grid (the count of mines and mines) to save performance when looping over neighbours
     private boolean generatedMines = false;
 
     public MineGrid(Game.Difficulty difficulty) {
@@ -209,7 +210,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         if (!isInBounds(position)) {
             return UNKNOWN;
         }
-        Log.i("minegrid", "Searching neighbours at " + position);
+        // Log.i("minegrid", "Searching neighbours at " + position);
         int bombCount = 0;
         Tile[][] neighbours = getNeighbours(position);
         for (int y = 0; y < 3; y++) {
@@ -217,7 +218,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
                 Tile tile = neighbours[y][x];
                 if (tile != null && tile.isMine()) {
                     bombCount++;
-                    Log.i("minegrid", "Found bomb at " + new Position(this, position.x + x - 1, position.y + y - 1));
+                    // Log.i("minegrid", "Found bomb at " + new Position(this, position.x + x - 1, position.y + y - 1));
                 }
             }
         }

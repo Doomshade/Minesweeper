@@ -7,11 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import cz.zcu.kiv.jsmahy.minesweeper.R;
 
@@ -43,6 +47,14 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
     }
 
     @Override
+    public void onBindViewHolder(@NonNull TileViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        /*if (payloads.size() > 0) {
+            holder.update((Tile) payloads.get(0));
+        }*/
+    }
+
+    @Override
     public int getItemCount() {
         return mineGrid.getSize();
     }
@@ -62,21 +74,46 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
         }
 
         private void update(final Tile tile) {
-            int mineCount = tile.getNearbyMineCount();
+            // default state
             if (tile.isFlagged()) {
+                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
                 number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
+                Log.i(TAG_HOLDER, "tilef=" + tile);
+                if (!tile.wasFlagged()) {
+                    number.startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_to_1));
+                }
                 return;
+            } else if (tile.wasFlagged()) {
+                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_to_0);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                number.setAnimation(animation);
+                animation.start();
             }
 
             if (!tile.isRevealed()) {
-                number.setImageDrawable(null);
-                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
                 return;
             }
 
             // it's a mine or sth else
             if (tile.isMine()) {
-                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
+                imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_revealed));
                 if (tile.isClickedMine()) {
                     number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_mine_found_red));
                 } else {
@@ -85,12 +122,17 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                 return;
             }
 
+            int mineCount = tile.getNearbyMineCount();
             if (mineCount < 0) {
                 return;
             }
-            // only update if the mine has been revealed
-            imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_white));
+
+            // only update if the tile has been revealed
+            imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_revealed));
+
+            // no mines -> don't draw a number
             if (mineCount == 0) {
+                number.setImageDrawable(null);
                 return;
             }
 
@@ -102,14 +144,21 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             try {
                 drawable = ContextCompat.getDrawable(context, id);
                 if (drawable == null) {
+                    number.setImageDrawable(null);
                     return;
                 }
             } catch (Resources.NotFoundException e) {
                 Log.e(TAG_HOLDER, "Nenasel se resource :(", e);
+                number.setImageDrawable(null);
                 return;
             }
 
             number.setImageDrawable(drawable);
+
+            Log.i(TAG_HOLDER, "tile=" + tile);
+            if (!tile.wasRevealed()) {
+                number.startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_to_1));
+            }
         }
 
         @Override

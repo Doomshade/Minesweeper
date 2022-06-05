@@ -23,7 +23,9 @@ public class Tile implements Parcelable {
     };
     private boolean mine;
     private boolean revealed;
+    private boolean wasRevealed;
     private boolean flagged;
+    private boolean wasFlagged;
     private boolean clickable;
     private boolean clickedMine;
     private int nearbyMineCount;
@@ -38,7 +40,14 @@ public class Tile implements Parcelable {
         flagged = in.readByte() != 0;
         clickable = in.readByte() != 0;
         clickedMine = in.readByte() != 0;
+        wasRevealed = in.readByte() != 0;
+        wasFlagged = in.readByte() != 0;
         nearbyMineCount = in.readInt();
+    }
+
+    public void update() {
+        this.wasFlagged = this.flagged;
+        this.wasRevealed = this.revealed;
     }
 
     public void setMine() {
@@ -63,7 +72,9 @@ public class Tile implements Parcelable {
         return new StringJoiner(", ", Tile.class.getSimpleName() + "[", "]")
                 .add("mine=" + mine)
                 .add("revealed=" + revealed)
+                .add("wasRevealed=" + wasRevealed)
                 .add("flagged=" + flagged)
+                .add("wasFlagged=" + wasFlagged)
                 .add("clickable=" + clickable)
                 .add("clickedMine=" + clickedMine)
                 .add("nearbyMineCount=" + nearbyMineCount)
@@ -95,6 +106,14 @@ public class Tile implements Parcelable {
         this.nearbyMineCount = nearbyMineCount;
     }
 
+    public boolean wasRevealed() {
+        return wasRevealed;
+    }
+
+    public boolean wasFlagged() {
+        return wasFlagged;
+    }
+
     public boolean isRevealed() {
         return revealed;
     }
@@ -111,6 +130,8 @@ public class Tile implements Parcelable {
         parcel.writeByte(this.flagged ? (byte) 1 : 0);
         parcel.writeByte(this.clickable ? (byte) 1 : 0);
         parcel.writeByte(this.clickedMine ? (byte) 1 : 0);
+        parcel.writeByte(this.wasRevealed ? (byte) 1 : 0);
+        parcel.writeByte(this.wasFlagged ? (byte) 1 : 0);
         parcel.writeInt(nearbyMineCount);
     }
 
@@ -119,17 +140,19 @@ public class Tile implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tile tile = (Tile) o;
-        return mine == tile.mine && revealed == tile.revealed && flagged == tile.flagged && clickable == tile.clickable && clickedMine == tile.clickedMine && nearbyMineCount == tile.nearbyMineCount;
+        return mine == tile.mine && revealed == tile.revealed && wasRevealed == tile.wasRevealed && flagged == tile.flagged && wasFlagged == tile.wasFlagged && clickable == tile.clickable && clickedMine == tile.clickedMine && nearbyMineCount == tile.nearbyMineCount;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mine, revealed, flagged, clickable, clickedMine, nearbyMineCount);
+        return Objects.hash(mine, revealed, wasRevealed, flagged, wasFlagged, clickable, clickedMine, nearbyMineCount);
     }
 
     public void reset() {
         revealed = false;
+        wasRevealed = false;
         flagged = false;
+        wasFlagged = false;
         clickable = true;
         clickedMine = false;
         nearbyMineCount = -1;

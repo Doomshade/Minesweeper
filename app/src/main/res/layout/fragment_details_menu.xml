@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:contentDescription="TODO"
-        app:srcCompat="@drawable/ic_icon_tile_white" />
+        app:srcCompat="@drawable/ic_icon_tile_revealed" />
 
     <TextView
         android:id="@+id/textView2"

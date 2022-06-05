@@ -124,7 +124,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomPanel"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
@@ -133,17 +133,42 @@
         app:layout_constraintStart_toEndOf="@+id/mineGridWrapper"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <ImageButton
-            android:id="@+id/restart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/back"
+            android:layout_width="@dimen/game_icon_size"
+            android:layout_height="@dimen/game_icon_size"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/restart"
             android:cropToPadding="true"
             android:foregroundGravity="center"
-            android:src="@android:drawable/ic_menu_rotate" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_icon_button_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <ImageButton
+            android:id="@+id/restart"
+            android:layout_width="@dimen/game_icon_size"
+            android:layout_height="@dimen/game_icon_size"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/restart"
+            android:cropToPadding="true"
+            android:foregroundGravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_icon_button_restart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

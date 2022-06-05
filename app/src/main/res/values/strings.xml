@@ -51,4 +51,7 @@
     <string name="restart_prompt_message">Do you really wish to restart the game?</string>
     <string name="restart_prompt_title">Restart</string>
     <string name="back">Back</string>
+    <string name="again">Play again</string>
+    <string name="game_finished">Game finished!</string>
+    <string name="score_msg">Score: %d</string>
 </resources>

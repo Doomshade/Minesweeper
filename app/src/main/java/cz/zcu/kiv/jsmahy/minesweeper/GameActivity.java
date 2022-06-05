@@ -2,14 +2,15 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 
 import static cz.zcu.kiv.jsmahy.minesweeper.ScoreboardActivity.PREFS;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -32,7 +33,7 @@ import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
 import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 public class GameActivity extends AppCompatActivity implements ItemClickListener {
-    private static final Game.Difficulty difficulty = Game.Difficulty.MEDIUM;
+    private static final Game.Difficulty difficulty = Game.Difficulty.EASY;
     private final Handler timerHandler = new Handler();
     private RecyclerView recyclerView = null;
     private GridRecyclerAdapter adapter = null;
@@ -103,7 +104,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         updateTime();
 
         if (started) {
-            timerHandler.postDelayed(timerRunnable, 1000L);
+            startTimer();
         }
 
         this.flagButton = findViewById(R.id.flag);
@@ -126,20 +127,49 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
 
         restartButton = findViewById(R.id.restart);
         restartButton.setOnClickListener(view -> {
+            if (!started) {
+                return;
+            }
             if (gameFinish) {
                 triggerRebirth();
-            } else {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.restart_prompt_title)
-                        .setMessage(R.string.restart_prompt_message)
-                        .setPositiveButton(R.string.answer_yes, (dialogInterface, i) -> triggerRebirth())
-                        .setNegativeButton(R.string.answer_no, ((dialogInterface, i) -> dialogInterface.cancel()))
-                        .show();
+                return;
             }
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.restart_prompt_title)
+                    .setMessage(R.string.restart_prompt_message)
+                    .setPositiveButton(R.string.answer_yes, (dialogInterface, i) -> triggerRebirth())
+                    .setNegativeButton(R.string.answer_no, ((dialogInterface, i) -> dialogInterface.cancel()))
+                    .show();
         });
 
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(view -> finish());
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopTimer();
+    }
+
+    private void stopTimer() {
+        started = false;
+        timerHandler.removeCallbacks(timerRunnable);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (started) {
+            startTimer();
+        }
+    }
+
+    private void startTimer() {
+        started = true;
+        timerHandler.postDelayed(timerRunnable, 1000L);
     }
 
     private void updateMines() {
@@ -197,8 +227,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onClick(GridRecyclerAdapter.TileViewHolder view, boolean longClick) {
         if (!started) {
-            started = true;
-            timerHandler.postDelayed(timerRunnable, 1000L);
+            startTimer();
         }
         onClick(view, new HashSet<>(), longClick);
     }
@@ -223,20 +252,18 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         final Tile tile = mineGrid.tile(position);
         switch (status) {
             case UNKNOWN:
+            case NOTHING:
                 break;
             case FLAGGED:
                 if (flagging && !recursing) {
                     toggleFlag(tile);
                 }
                 break;
-            case NOTHING:
-                // nothing happens
-                break;
             case MINE_REVEAL:
                 if (!flagging) {
                     clickedMine = position;
-                    Toast.makeText(getApplicationContext(), "Konec hry!", Toast.LENGTH_LONG).show();
                     finishGame();
+                    showEndAlertDialog();
                 }
             default:
                 if (!flagging) {
@@ -256,15 +283,36 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 }
                 break;
         }
+
+        // back to the previous state
         if (longClick) {
             flagging = prevFlagging;
         }
-        adapter.notifyItemChanged(position.getRawPosition(), mineGrid.tile(position));
+        adapter.notifyItemChanged(position.getRawPosition(), tile);
+
+        // update the status to the "future"
+        // the tile (maybe) WAS NOT revealed or (maybe) WAS NOT flagged prior to this call
+        // if it was revealed now, the wasRevealed would return false prior to this call
+        // same goes for wasFlagged
+        new Handler(Looper.getMainLooper()).postDelayed(tile::update, 1L);
+    }
+
+    private void showEndAlertDialog() {
+        AlertDialog.Builder alertDialogBase = getAlertDialogBase();
+        alertDialogBase.show();
+    }
+
+    private AlertDialog.Builder getAlertDialogBase() {
+        return new AlertDialog.Builder(this)
+                .setTitle(R.string.game_finished)
+                .setIcon(R.drawable.ic_icon_mine_found_red)
+                .setNegativeButton(R.string.back, (dialogInterface, i) -> finish())
+                .setPositiveButton(R.string.again, (dialogInterface, i) -> triggerRebirth());
     }
 
     private void finishGame() {
         gameFinish = true;
-        timerHandler.removeCallbacks(timerRunnable);
+        stopTimer();
         flagButton.setClickable(false);
         final Tile[][] tiles = mineGrid.getTiles();
         for (int y = 0; y < mineGrid.getRows(); y++) {
@@ -303,6 +351,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         updateMines();
     }
 
+    @SuppressLint("DefaultLocale")
     private void checkForWin() {
         if (mineCount > 0) {
             return;
@@ -314,14 +363,55 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         }
         finishGame();
         saveTime();
-        Toast.makeText(getApplicationContext(), R.string.the_end, Toast.LENGTH_LONG).show();
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-        builder.setTitle(R.string.the_end)
-                .setMessage(R.string.you_won)
-                .setNeutralButton(R.string.confirm, (dialogInterface, i) -> {
-                    dialogInterface.dismiss();
-                });
+        getAlertDialogBase()
+                .setMessage(String.format(getString(R.string.score_msg), Math.round((double) calculateBV3() * 100d / time)))
+                .show();
+    }
+
+    private int calculateBV3() {
+        int bv3 = 0;
+        boolean[][] marks = new boolean[mineGrid.getRows()][mineGrid.getColumns()];
+        for (int y = 0; y < mineGrid.getRows(); y++) {
+            for (int x = 0; x < mineGrid.getColumns(); x++) {
+                if (marks[y][x]) {
+                    continue;
+                }
+                marks[y][x] = true;
+                bv3++;
+                floodFillMark(marks, x, y);
+            }
+        }
+        for (int y = 0; y < mineGrid.getRows(); y++) {
+            for (int x = 0; x < mineGrid.getColumns(); x++) {
+                if (!marks[y][x] && !mineGrid.tile(mineGrid.getPosition(x, y)).isMine()) {
+                    bv3++;
+                }
+            }
+        }
+        Log.i("game", "BV3 = " + bv3);
+        return bv3;
+    }
+
+    private void floodFillMark(boolean[][] marks, int x, int y) {
+        for (int nbY = -1; nbY <= 1; nbY++) {
+            for (int nbX = -1; nbX <= 1; nbX++) {
+                int markX = x + nbX;
+                int markY = y + nbY;
+                if (markX < 0 || markX >= mineGrid.getColumns() ||
+                        markY < 0 || markY >= mineGrid.getRows()) {
+                    continue;
+                }
+                if (marks[markY][markX]) {
+                    continue;
+                }
+
+                marks[markY][markX] = true;
+                if (mineGrid.getNearbyMineCount(mineGrid.getPosition(markX, markY)) == 0) {
+                    floodFillMark(marks, markX, markY);
+                }
+            }
+        }
     }
 
     private void saveTime() {
