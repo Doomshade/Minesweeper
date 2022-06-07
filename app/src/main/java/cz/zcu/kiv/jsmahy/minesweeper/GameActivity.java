@@ -77,6 +77,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        setTheme(PreferenceManager.getDefaultSharedPreferences(this).getInt("themeId", R.style.Theme_AppCompat_Light_NoActionBar_FullScreen_Fulbo));
         setContentView(R.layout.activity_game);
         ActionBar ab = getSupportActionBar();
         if (ab != null) {

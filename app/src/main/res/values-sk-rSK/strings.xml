@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hľadanie mín</string>
+    <string name="title_activity_settings">Nastavenia</string>
+    <string name="title_activity_main">Hľadanie mín</string>
+    <string name="img_desc">Počet mín</string>
+    <string name="play">Hrať</string>
+    <string name="options">Možnosti</string>
+    <string name="settings">Nastavenia</string>
+    <string name="scoreboard">Tabuľka</string>
+    <string name="exit">Zavrieť</string>
+    <string name="flag">Vlajka</string>
+    <string name="restart">Reštart</string>
+    <string name="time">Čas</string>
+    <string name="you_won">Vyhrali ste!</string>
+    <string name="confirm">Potvrdiť</string>
+    <string name="game">Hra</string>
+    <string name="difficulty">Obtiažnosť</string>
+    <string name="date">Dátum</string>
+    <string name="difficulty_0">Jednoduchá</string>
+    <string name="difficulty_1">Stredná</string>
+    <string name="answer_yes">Áno</string>
+    <string name="answer_no">Nie</string>
+    <string name="restart_prompt_message">Naozaj si želáte reštartovať hru?</string>
+    <string name="restart_prompt_title">Reštart</string>
+    <string name="close">Zavrieť</string>
+    <string name="again">Hrať znovu</string>
+    <string name="game_finished">Koniec hry!</string>
+    <string name="score_msg">Skóre: %d</string>
+    <string name="score">Skóre</string>
+    <string name="game_options_header">Možnosti hry</string>
+    <string name="language">Jazyk</string>
+    <string name="app_options_header">Možnosti aplikácie</string>
+    <string name="lang_en">Angličtina</string>
+    <string name="lang_cs">Čeština</string>
+    <string name="lang_sk">Slovenčina</string>
+    <string name="font">Font</string>
+</resources>

@@ -1,6 +1,8 @@
 package cz.zcu.kiv.jsmahy.minesweeper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(PreferenceManager.getDefaultSharedPreferences(this).getInt("themeId", R.style.Theme_AppCompat_Light_NoActionBar_FullScreen_Fulbo));
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -38,9 +41,43 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
             Preference lang = Objects.requireNonNull((Preference) findPreference("lang"));
-            lang.setDefaultValue(PreferenceManager.getDefaultSharedPreferences(lang.getContext()).getString("lang", "en"));
+            Preference font = Objects.requireNonNull((Preference) findPreference("font"));
+            Preference diff = Objects.requireNonNull((Preference) findPreference("diff"));
             lang.setOnPreferenceChangeListener(this::onLanguageChange);
-            Objects.requireNonNull((Preference) findPreference("diff")).setOnPreferenceChangeListener(this::onDifficultyChange);
+            font.setOnPreferenceChangeListener(this::onFontChange);
+            diff.setOnPreferenceChangeListener(this::onDifficultyChange);
+
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+                String defaultLang = prefs.getString("lang", "en");
+                lang.setDefaultValue(defaultLang);
+
+                String defaultFont = prefs.getString("font", "fulbo");
+                font.setDefaultValue(defaultFont);
+            }
+        }
+
+        private boolean onFontChange(Preference preference, Object newValue) {
+            Context context = preference.getContext();
+            final int themeId;
+            switch ((String) newValue) {
+                case "dolce":
+                    themeId = R.style.Theme_AppCompat_Light_NoActionBar_FullScreen_Dolce;
+                    break;
+                case "fulbo":
+                    themeId = R.style.Theme_AppCompat_Light_NoActionBar_FullScreen_Fulbo;
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Invalid font " + newValue);
+            }
+            context.setTheme(themeId);
+            boolean commit = preference.getSharedPreferences()
+                    .edit()
+                    .putInt("themeId", themeId)
+                    .commit();
+            updateActivity();
+            return commit;
         }
 
         private boolean onDifficultyChange(Preference preference, Object newValue) {
@@ -69,14 +106,18 @@ public class SettingsActivity extends AppCompatActivity {
                     .edit()
                     .putString("lang", (String) newValue)
                     .commit();
+            updateActivity();
+            return commit;
+        }
+
+        private void updateActivity() {
             FragmentActivity activity = getActivity();
             if (activity == null) {
-                return commit;
+                return;
             }
             Intent intent = new Intent(activity, activity.getClass());
             startActivity(intent);
             activity.finish();
-            return commit;
         }
     }
 }

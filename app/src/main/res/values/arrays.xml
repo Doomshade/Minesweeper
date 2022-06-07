@@ -10,12 +10,14 @@
         <item>reply_all</item>
     </string-array>
     <string-array name="language_entries">
-        <item>@string/lang_english</item>
-        <item>@string/lang_czech</item>
+        <item>@string/lang_en</item>
+        <item>@string/lang_cs</item>
+        <item>@string/lang_sk</item>
     </string-array>
     <string-array name="language_values">
         <item>en</item>
         <item>cs</item>
+        <item>sk</item>
     </string-array>
     <string-array name="difficulty_entries">
         <item>@string/difficulty_0</item>
@@ -25,4 +27,13 @@
         <item>easy</item>
         <item>medium</item>
     </string-array>
+    <string-array name="font_entries">
+        <item>Fulbo</item>
+        <item>Dolce</item>
+    </string-array>
+    <string-array name="font_values">
+        <item>fulbo</item>
+        <item>dolce</item>
+    </string-array>
+
 </resources>

@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_icon_mine_found_red"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen.Fulbo">
         <activity
             android:name=".ScoreboardActivity"
             android:exported="false"

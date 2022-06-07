@@ -2,11 +2,17 @@
 
     <PreferenceCategory app:title="@string/game_options_header">
         <ListPreference
-            app:defaultValue="en"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="lang"
             app:title="@string/language"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="fulbo"
+            app:entries="@array/font_entries"
+            app:entryValues="@array/font_values"
+            app:key="font"
+            app:title="@string/font"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -20,6 +26,7 @@
             app:key="diff"
             app:title="@string/difficulty"
             app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

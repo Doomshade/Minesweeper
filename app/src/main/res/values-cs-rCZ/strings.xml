@@ -3,23 +3,6 @@
     <string name="app_name">Hledání min</string>
     <string name="title_activity_settings">Nastavení</string>
     <string name="title_activity_main">Hledání min</string>
-    <string name="messages_header">Zprávy</string>
-    <string name="sync_header">Synchronizovat</string>
-    <string name="signature_title">Podpis</string>
-    <string name="reply_title">Výchozí odpověď</string>
-    <string name="sync_title">Pravidelně synchronizovat e-mail</string>
-    <string name="attachment_title">Stáhnout přílohy</string>
-    <string name="attachment_summary_on">Automaticky stahovat přílohy</string>
-    <string name="attachment_summary_off">Stahovat přílohy pouze manuálně</string>
-    <string name="title_activity_login">Přihlášení</string>
-    <string name="prompt_email">E-mail</string>
-    <string name="prompt_password">Heslo</string>
-    <string name="action_sign_in">Přihlásit se nebo registrovat</string>
-    <string name="action_sign_in_short">Prihlásit se</string>
-    <string name="welcome">Vítej!</string>
-    <string name="invalid_username">Neplatné uživatelské jméno</string>
-    <string name="invalid_password">Heslo musí mít >5 znaků</string>
-    <string name="login_failed">Nepodařilo se přihlásit</string>
     <string name="img_desc">Počet min</string>
     <string name="play">Hrát</string>
     <string name="options">Možnosti</string>
@@ -29,7 +12,6 @@
     <string name="flag">Vlajka</string>
     <string name="restart">Restart</string>
     <string name="time">Čas</string>
-    <string name="the_end">Konec hry!</string>
     <string name="you_won">Vyhrál jste!</string>
     <string name="confirm">Potvrdit</string>
     <string name="game">Hra</string>
@@ -39,7 +21,7 @@
     <string name="difficulty_1">Střední</string>
     <string name="answer_yes">Ano</string>
     <string name="answer_no">Ne</string>
-    <string name="restart_prompt_message">Opravdu chcete restartovat hru?</string>
+    <string name="restart_prompt_message">Opravdu si přejete restartovat hru?</string>
     <string name="restart_prompt_title">Restart</string>
     <string name="close">Zavřít</string>
     <string name="again">Hrát znovu</string>
@@ -49,6 +31,8 @@
     <string name="game_options_header">Možnosti hry</string>
     <string name="language">Jazyk</string>
     <string name="app_options_header">Možnosti aplikace</string>
-    <string name="lang_english">Angličtina</string>
-    <string name="lang_czech">Čeština</string>
+    <string name="lang_en">Angličtina</string>
+    <string name="lang_cs">Čeština</string>
+    <string name="lang_sk">Slovenština</string>
+    <string name="font">Font</string>
 </resources>
