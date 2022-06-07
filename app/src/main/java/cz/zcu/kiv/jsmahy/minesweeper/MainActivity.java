@@ -3,7 +3,6 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +11,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ImageButton playBtn = null;
-    private ImageButton scoreBoardBtn = null;
-    private ImageButton exitBtn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +25,25 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
                 View.SYSTEM_UI_FLAG_FULLSCREEN);
-        playBtn = findViewById(R.id.play);
-        playBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-            startActivity(intent);
-        });
-        scoreBoardBtn = findViewById(R.id.scoreboard);
-        scoreBoardBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), ScoreboardActivity.class);
-            startActivity(intent);
-        });
-        exitBtn = findViewById(R.id.exit);
-        exitBtn.setOnClickListener(view -> finish());
+    }
+
+    public void startGameActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        startActivity(intent);
+    }
+
+    public void startScoreboardActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+        startActivity(intent);
+    }
+
+    public void startSettingsActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void exit(View view) {
+        finish();
     }
 
     private void hideSystemBars() {

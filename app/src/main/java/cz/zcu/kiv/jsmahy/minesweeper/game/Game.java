@@ -1,9 +1,8 @@
 package cz.zcu.kiv.jsmahy.minesweeper.game;
 
-import android.content.Context;
-import android.content.res.Resources;
+import androidx.annotation.StringRes;
 
-import androidx.annotation.NonNull;
+import cz.zcu.kiv.jsmahy.minesweeper.R;
 
 /**
  * The minesweeper game (engine)
@@ -70,19 +69,19 @@ public interface Game {
      * The game difficulty
      */
     enum Difficulty {
-        EASY(10, 9, 9),
-        MEDIUM(40, 16, 16);
+        EASY(10, 9, 9, R.string.difficulty_0),
+        MEDIUM(40, 16, 16, R.string.difficulty_1);
 
         private final int rows;
         private final int columns;
         private final int mineCount;
-        private final String resName;
+        private final int resId;
 
-        Difficulty(int mineCount, int rows, int columns) {
+        Difficulty(int mineCount, int rows, int columns, int resId) {
             this.mineCount = mineCount;
             this.rows = rows;
             this.columns = columns;
-            this.resName = String.format("difficulty_%d", ordinal());
+            this.resId = resId;
         }
 
         public int getRows() {
@@ -97,11 +96,9 @@ public interface Game {
             return mineCount;
         }
 
-        @NonNull
-        public String toString(Context context) {
-            final Resources resources = context.getResources();
-            final int id = resources.getIdentifier(resName, "string", context.getPackageName());
-            return resources.getString(id);
+        @StringRes
+        public int getResId() {
+            return resId;
         }
     }
 }

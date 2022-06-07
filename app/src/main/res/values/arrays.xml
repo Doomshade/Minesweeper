@@ -9,4 +9,20 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    <string-array name="language_entries">
+        <item>@string/lang_english</item>
+        <item>@string/lang_czech</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en</item>
+        <item>cs</item>
+    </string-array>
+    <string-array name="difficulty_entries">
+        <item>@string/difficulty_0</item>
+        <item>@string/difficulty_1</item>
+    </string-array>
+    <string-array name="difficulty_values">
+        <item>easy</item>
+        <item>medium</item>
+    </string-array>
 </resources>

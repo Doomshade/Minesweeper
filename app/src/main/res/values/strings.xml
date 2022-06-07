@@ -50,8 +50,14 @@
     <string name="answer_no">No</string>
     <string name="restart_prompt_message">Do you really wish to restart the game?</string>
     <string name="restart_prompt_title">Restart</string>
-    <string name="back">Back</string>
+    <string name="close">Close</string>
     <string name="again">Play again</string>
     <string name="game_finished">Game finished!</string>
     <string name="score_msg">Score: %d</string>
+    <string name="score">Score</string>
+    <string name="game_options_header">Game Options</string>
+    <string name="language">Language</string>
+    <string name="app_options_header">Application options</string>
+    <string name="lang_english">English</string>
+    <string name="lang_czech">Czech</string>
 </resources>

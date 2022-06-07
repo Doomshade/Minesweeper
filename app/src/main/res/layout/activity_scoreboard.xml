@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
+    android:paddingLeft="@dimen/scoreboard_padding"
+    android:paddingTop="@dimen/scoreboard_padding_top"
+    android:paddingRight="@dimen/scoreboard_padding"
+    android:paddingBottom="@dimen/scoreboard_padding"
     tools:context=".ScoreboardActivity">
 
     <TableLayout

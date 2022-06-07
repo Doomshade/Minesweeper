@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,8 +34,8 @@ import cz.zcu.kiv.jsmahy.minesweeper.game.MineGrid;
 import cz.zcu.kiv.jsmahy.minesweeper.game.Tile;
 
 public class GameActivity extends AppCompatActivity implements ItemClickListener {
-    private static final Game.Difficulty difficulty = Game.Difficulty.EASY;
     private final Handler timerHandler = new Handler();
+    private Game.Difficulty difficulty = null;
     private RecyclerView recyclerView = null;
     private GridRecyclerAdapter adapter = null;
     private MineGrid mineGrid = null;
@@ -44,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
     private MineGrid.Position clickedMine = null;
     private int mineCount = 0;
     private int time = 0;
+    private long score = 0;
     private boolean started = false;
     private TextView mineCountTv = null;
     private TextView timeTv = null;
@@ -77,14 +79,16 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         super.onCreate(state);
         setContentView(R.layout.activity_game);
         ActionBar ab = getSupportActionBar();
-
         if (ab != null) {
             ab.hide();
         }
         hideSystemBars();
+        int difficultyOrdinal = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("difficulty", 0);
+        this.difficulty = Game.Difficulty.values()[difficultyOrdinal];
+
         if (state == null) {
-            mineGrid = new MineGrid(difficulty);
-            mineCount = difficulty.getMineCount();
+            mineGrid = new MineGrid(this.difficulty);
+            mineCount = this.difficulty.getMineCount();
             mineGrid.generateMines(getApplicationContext());
         } else {
             mineGrid = state.getParcelable("minegrid");
@@ -303,7 +307,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         return new AlertDialog.Builder(this)
                 .setTitle(R.string.game_finished)
                 .setIcon(R.drawable.ic_icon_mine_found_red)
-                .setNegativeButton(R.string.back, (dialogInterface, i) -> finish())
+                .setNegativeButton(R.string.close, (dialogInterface, i) -> dialogInterface.dismiss())
                 .setPositiveButton(R.string.again, (dialogInterface, i) -> triggerRebirth());
     }
 
@@ -332,6 +336,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 tileViewHolder.setClickable(false);
             }
         }
+        score = Math.round((double) calculateBV3() * 100d / time);
     }
 
     private void toggleFlag(Tile tile) {
@@ -362,7 +367,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         saveTime();
 
         getAlertDialogBase()
-                .setMessage(String.format(getString(R.string.score_msg), Math.round((double) calculateBV3() * 100d / time)))
+                .setMessage(String.format(getString(R.string.score_msg), score))
                 .show();
     }
 
@@ -419,6 +424,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         edit.putInt("difficulty-" + gameCount, difficulty.ordinal());
         edit.putInt("time-" + gameCount, time);
         edit.putString("date-" + gameCount, LocalDateTime.now().format(DateTimeFormatter.ofPattern("d. M. yyyy HH:mm:ss")));
+        edit.putLong("score-" + gameCount, score);
         edit.apply();
         logsth();
     }

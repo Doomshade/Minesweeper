@@ -55,8 +55,8 @@
 
         <ImageButton
             android:id="@+id/flag"
-            android:layout_width="@dimen/game_icon_size"
-            android:layout_height="@dimen/game_icon_size"
+            android:layout_width="@dimen/game_top_icon_size"
+            android:layout_height="@dimen/game_top_icon_size"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -141,12 +141,12 @@
 
     <ImageButton
         android:id="@+id/restart"
-        android:layout_width="@dimen/game_icon_size"
-        android:layout_height="@dimen/game_icon_size"
+        android:layout_width="@dimen/game_bottom_icon_size"
+        android:layout_height="@dimen/game_bottom_icon_size"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/back"
+        android:contentDescription="@string/close"
         android:cropToPadding="true"
         android:foregroundGravity="center"
         android:scaleType="fitCenter"
@@ -159,8 +159,8 @@
 
     <ImageButton
         android:id="@+id/back"
-        android:layout_width="@dimen/game_icon_size"
-        android:layout_height="@dimen/game_icon_size"
+        android:layout_width="@dimen/game_bottom_icon_size"
+        android:layout_height="@dimen/game_bottom_icon_size"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"

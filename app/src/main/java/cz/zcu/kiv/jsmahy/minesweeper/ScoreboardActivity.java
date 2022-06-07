@@ -8,6 +8,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDateTime;
@@ -33,21 +34,32 @@ public class ScoreboardActivity extends AppCompatActivity {
         TableRow baseRow = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
         tableLayout.addView(baseRow);
         tableLayout.addView(getLayoutInflater().inflate(R.layout.horizontal_line, baseRow, false));
-        
+
         for (int i = 0; i < gameCount; i++) {
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
             // addGameId(i, row);
             addDifficulty(prefs, i, row);
             addTime(prefs, i, row);
             addDate(prefs, i, row);
+            addScore(prefs, i, row);
             tableLayout.addView(row);
             // tableLayout.addView(getLayoutInflater().inflate(R.layout.horizontal_line, tableLayout, false));
         }
     }
 
+    private void addScore(SharedPreferences prefs, int i, TableRow row) {
+        TextView scoreTv = findTextViewByIdAndRescale(R.id.row_score, row);
+        scoreTv.setText(String.valueOf(prefs.getLong("score-" + i, 0L)));
+    }
+
+    private <T extends TextView> T findTextViewByIdAndRescale(@IdRes int id, TableRow row) {
+        T tv = row.findViewById(id);
+        rescaleTextView(tv);
+        return tv;
+    }
+
     private void addDate(SharedPreferences prefs, int i, TableRow row) {
-        TextView dateTv = row.findViewById(R.id.row_date);
-        rescaleTextView(dateTv);
+        TextView dateTv = findTextViewByIdAndRescale(R.id.row_date, row);
         dateTv.setText(prefs.getString("date-" + i, LocalDateTime.MIN.format(DateTimeFormatter.ofPattern("d. M. yyyy HH:mm:ss"))));
     }
 
@@ -56,10 +68,9 @@ public class ScoreboardActivity extends AppCompatActivity {
     }
 
     private void addDifficulty(SharedPreferences prefs, int i, TableRow row) {
-        TextView difficultyTv = row.findViewById(R.id.row_difficulty);
-        rescaleTextView(difficultyTv);
+        TextView difficultyTv = findTextViewByIdAndRescale(R.id.row_difficulty, row);
         Game.Difficulty difficulty = Game.Difficulty.values()[prefs.getInt("difficulty-" + i, 0)];
-        difficultyTv.setText(difficulty.toString(getApplicationContext()));
+        difficultyTv.setText(difficulty.getResId());
         // tableLayout.addView(getLayoutInflater().inflate(R.layout.vertical_line, tableLayout, false));
     }
 

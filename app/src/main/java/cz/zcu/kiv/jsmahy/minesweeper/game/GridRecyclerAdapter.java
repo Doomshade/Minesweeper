@@ -74,10 +74,12 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
         }
 
         private void update(final Tile tile) {
+            imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
+            number.setImageDrawable(null);
             // default state
             if (tile.isFlagged()) {
                 imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
-                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged_red));
                 Log.i(TAG_HOLDER, "tilef=" + tile);
                 if (!tile.wasFlagged()) {
                     number.startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_to_1));
@@ -85,7 +87,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                 return;
             } else if (tile.wasFlagged()) {
                 imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
-                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged));
+                number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged_red));
                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_to_0);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override

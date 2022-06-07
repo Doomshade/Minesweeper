@@ -10,12 +10,13 @@
 
     <ImageButton
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/main_big_btn_height"
+        android:layout_width="@dimen/main_big_btn_width"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/main_margin_top"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/play"
+        android:onClick="startGameActivity"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_icon_mine_found"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,12 +25,13 @@
 
     <ImageButton
         android:id="@+id/scoreboard"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/main_small_btn_height"
+        android:layout_width="@dimen/main_small_btn_width"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/scoreboard"
+        android:onClick="startScoreboardActivity"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_icon_button_scoreboard"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,12 +40,13 @@
 
     <ImageButton
         android:id="@+id/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/main_small_btn_height"
+        android:layout_width="@dimen/main_small_btn_width"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/settings"
+        android:onClick="startSettingsActivity"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_icon_button_settings"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +57,13 @@
 
     <ImageButton
         android:id="@+id/exit"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/main_small_btn_height"
+        android:layout_width="@dimen/main_small_btn_width"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/exit"
+        android:onClick="exit"
         android:padding="5dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_icon_button_exit"

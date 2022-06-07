@@ -41,9 +41,14 @@
     <string name="answer_no">Ne</string>
     <string name="restart_prompt_message">Opravdu chcete restartovat hru?</string>
     <string name="restart_prompt_title">Restart</string>
-    <string name="back">Zpět</string>
+    <string name="close">Zavřít</string>
     <string name="again">Hrát znovu</string>
     <string name="game_finished">Konec hry!</string>
     <string name="score_msg">Skóre: %d</string>
-
+    <string name="score">Skóre</string>
+    <string name="game_options_header">Možnosti hry</string>
+    <string name="language">Jazyk</string>
+    <string name="app_options_header">Možnosti aplikace</string>
+    <string name="lang_english">Angličtina</string>
+    <string name="lang_czech">Čeština</string>
 </resources>

@@ -3,11 +3,12 @@
     <dimen name="game_text_size">34sp</dimen>
     <dimen name="game_cell_size">40dp</dimen>
     <dimen name="game_cell_pad">0.5dp</dimen>
-    <dimen name="game_icon_size">70dp</dimen>
+    <dimen name="game_top_icon_size">70dp</dimen>
+    <dimen name="game_bottom_icon_size">50dp</dimen>
     <dimen name="game_top_panel_sides_margin">50dp</dimen>
     <dimen name="game_text_icon_margin">5dp</dimen>
     <dimen name="game_hint_icon_size">28dp</dimen>
     <dimen name="game_number_pad">6dp</dimen>
     <dimen name="table_row_padding">4dp</dimen>
-    <dimen name="main_margin_top">44dp</dimen>
+    <dimen name="main_margin_top">45dp</dimen>
 </resources>
