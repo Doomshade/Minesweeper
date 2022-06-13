@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+/**
+ * Model for the holder in {@link GridRecyclerAdapter.TileViewHolder}
+ */
 public class Tile implements Parcelable {
     public static final Creator<Tile> CREATOR = new Creator<>() {
         @Override
@@ -148,6 +151,7 @@ public class Tile implements Parcelable {
         return Objects.hash(mine, revealed, wasRevealed, flagged, wasFlagged, clickable, clickedMine, nearbyMineCount);
     }
 
+    // resets to default state
     public void reset() {
         revealed = false;
         wasRevealed = false;

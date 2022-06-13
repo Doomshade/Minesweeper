@@ -101,13 +101,11 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
             clickedMine = state.getParcelable("clickedBomb");
         }
 
-
         mineCountTv = findViewById(R.id.mineCount);
         updateMines();
 
         timeTv = findViewById(R.id.time);
         updateTime();
-
         if (started) {
             startTimer();
         }
@@ -117,38 +115,38 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
             flagging = !flagging;
             flagButton.setImageResource(flagging ? R.drawable.ic_icon_tile_flagged_red : R.drawable.ic_icon_tile_flagged);
         });
-        flagButton.setImageResource(flagging ? R.drawable.ic_icon_tile_flagged_red : R.drawable.ic_icon_tile_flagged);
+        this.flagButton.setImageResource(flagging ? R.drawable.ic_icon_tile_flagged_red : R.drawable.ic_icon_tile_flagged);
         this.recyclerView = findViewById(R.id.game_grid);
 
-        // this.restartButton = findViewById(R.id.restart);
-        // restartButton.setOnClickListener(x -> triggerRebirth());
         this.adapter = new GridRecyclerAdapter(this, mineGrid, this);
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, mineGrid.getRows()));
         this.recyclerView.setAdapter(adapter);
 
-        if (gameFinish) {
-            finishGame();
-        }
-
-        restartButton = findViewById(R.id.restart);
-        restartButton.setOnClickListener(view -> {
+        this.restartButton = findViewById(R.id.restart);
+        this.restartButton.setOnClickListener(view -> {
             if (gameFinish) {
-                triggerRebirth();
+                restartActivity();
                 return;
             }
 
             new AlertDialog.Builder(this)
                     .setTitle(R.string.restart_prompt_title)
                     .setMessage(R.string.restart_prompt_message)
-                    .setPositiveButton(R.string.answer_yes, (dialogInterface, i) -> triggerRebirth())
+                    .setPositiveButton(R.string.answer_yes, (dialogInterface, i) -> restartActivity())
                     .setNegativeButton(R.string.answer_no, ((dialogInterface, i) -> dialogInterface.cancel()))
                     .show();
         });
 
-        backButton = findViewById(R.id.back);
-        backButton.setOnClickListener(view -> finish());
+        this.backButton = findViewById(R.id.back);
+        this.backButton.setOnClickListener(view -> finish());
+
+        if (gameFinish) {
+            finishGame();
+        }
 
     }
+
+    // TODO timer se stopne po změnu UI na landscape
 
     @Override
     protected void onPause() {
@@ -182,7 +180,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         timeTv.setText(String.valueOf(time));
     }
 
-    private void triggerRebirth() {
+    private void restartActivity() {
         finish();
         startActivity(getIntent());
     }
@@ -197,7 +195,6 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         state.putBoolean("started", started);
         state.putBoolean("flagging", flagging);
         state.putParcelable("clickedBomb", clickedMine);
-        SharedPreferences prefs = getSharedPreferences("last_game", MODE_PRIVATE);
     }
 
 
@@ -205,24 +202,21 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         if (!mineGrid.isInBounds(position)) {
             return UNKNOWN;
         }
-        final Tile clickedTile = mineGrid.tile(position);
 
+        final Tile clickedTile = mineGrid.tile(position);
         if (clickedTile == null) {
             return UNKNOWN;
         }
         if (clickedTile.isFlagged()) {
             return FLAGGED;
         }
-
         if (clickedTile.isMine()) {
             return MINE_REVEAL;
         }
-
         if (clickedTile.isRevealed()) {
             return NOTHING;
         }
 
-        // scan neighbouring mines
         return mineGrid.getNearbyMineCount(position);
     }
 
@@ -309,7 +303,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
                 .setTitle(R.string.game_finished)
                 .setIcon(R.drawable.ic_icon_mine_found_red)
                 .setNegativeButton(R.string.close, (dialogInterface, i) -> dialogInterface.dismiss())
-                .setPositiveButton(R.string.again, (dialogInterface, i) -> triggerRebirth());
+                .setPositiveButton(R.string.again, (dialogInterface, i) -> restartActivity());
     }
 
     private void finishGame() {
@@ -427,7 +421,7 @@ public class GameActivity extends AppCompatActivity implements ItemClickListener
         edit.putString("date-" + gameCount, LocalDateTime.now().format(DateTimeFormatter.ofPattern("d. M. yyyy HH:mm:ss")));
         edit.putLong("score-" + gameCount, score);
         edit.apply();
-        logsth();
+        // logsth();
     }
 
     private void logsth() {

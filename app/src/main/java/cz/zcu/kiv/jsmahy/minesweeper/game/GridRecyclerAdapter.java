@@ -19,6 +19,9 @@ import java.util.List;
 
 import cz.zcu.kiv.jsmahy.minesweeper.R;
 
+/**
+ * Recycler adapter with a grid layout
+ */
 public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.TileViewHolder> {
     public static final String TAG_HOLDER = "holder";
     private final MineGrid mineGrid;
@@ -74,13 +77,15 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
         }
 
         private void update(final Tile tile) {
+            // default state
             imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
             number.setImageDrawable(null);
-            // default state
+
+            // flag state
             if (tile.isFlagged()) {
                 imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
                 number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged_red));
-                Log.i(TAG_HOLDER, "tilef=" + tile);
+
                 if (!tile.wasFlagged()) {
                     number.startAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_to_1));
                 }
@@ -88,6 +93,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
             } else if (tile.wasFlagged()) {
                 imageTile.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_hidden));
                 number.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tile_flagged_red));
+
                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.scale_to_0);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -109,6 +115,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                 animation.start();
             }
 
+            // reveal state
             if (!tile.isRevealed()) {
                 return;
             }
@@ -124,6 +131,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                 return;
             }
 
+            // mine count < 0 means it hasn't been revealed yet. just making sure
             int mineCount = tile.getNearbyMineCount();
             if (mineCount < 0) {
                 return;
@@ -138,6 +146,7 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                 return;
             }
 
+            // draw number
             final Resources resources = context.getResources();
             final String drawableStr = String.format("ic_icon_number_%d", mineCount);
             final int id = resources.getIdentifier(drawableStr, "drawable", context.getPackageName());
@@ -150,11 +159,10 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
                     return;
                 }
             } catch (Resources.NotFoundException e) {
-                Log.e(TAG_HOLDER, "Nenasel se resource :(", e);
+                Log.e(TAG_HOLDER, "No resource found :(", e);
                 number.setImageDrawable(null);
                 return;
             }
-
             number.setImageDrawable(drawable);
 
             Log.i(TAG_HOLDER, "tile=" + tile);

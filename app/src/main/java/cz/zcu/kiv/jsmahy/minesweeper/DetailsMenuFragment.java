@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
  * A simple {@link Fragment} subclass.
  * Use the {@link DetailsMenuFragment#newInstance} factory method to
  * create an instance of this fragment.
+ * <p>NOTE: this is a generated menu fragment from android studio</p>
+ *
+ * @deprecated not used
  */
 public class DetailsMenuFragment extends Fragment {
 

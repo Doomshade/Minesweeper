@@ -1,0 +1,20 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="main_big_btn_width">85dp</dimen>
+    <dimen name="main_small_btn_width">35dp</dimen>
+    <dimen name="game_text_size">20sp</dimen>
+    <dimen name="game_cell_size">30dp</dimen>
+    <dimen name="game_cell_pad">0.3dp</dimen>
+    <dimen name="game_top_icon_size">40dp</dimen>
+    <dimen name="game_bottom_icon_size">30dp</dimen>
+    <dimen name="game_top_panel_sides_margin">10dp</dimen>
+    <dimen name="game_text_icon_margin">2dp</dimen>
+    <dimen name="game_hint_icon_size">20dp</dimen>
+    <dimen name="game_number_pad">3dp</dimen>
+    <dimen name="table_row_padding">2dp</dimen>
+    <dimen name="first_row_text_size">14sp</dimen>
+    <dimen name="row_text_size">11sp</dimen>
+    <dimen name="main_margin_top">150dp</dimen>
+    <dimen name="scoreboard_padding_top">10dp</dimen>
+    <dimen name="scoreboard_padding">4dp</dimen>
+</resources>

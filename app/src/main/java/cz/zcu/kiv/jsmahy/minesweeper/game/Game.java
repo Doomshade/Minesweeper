@@ -10,6 +10,7 @@ import cz.zcu.kiv.jsmahy.minesweeper.R;
  * @author Jakub Šmrha
  * @version 30. 3. 2022
  * @since 30. 3. 2022
+ * @deprecated not used anymore
  */
 public interface Game {
     /**

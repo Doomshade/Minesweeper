@@ -2,7 +2,6 @@ package cz.zcu.kiv.jsmahy.minesweeper;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -31,12 +30,13 @@ public class ScoreboardActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(PREFS, 0);
         int gameCount = prefs.getInt("gameCount", -1) + 1;
-        Log.i("game", "gameCount = " + gameCount);
 
+        // the first row -- the header
         TableRow baseRow = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
         tableLayout.addView(baseRow);
         tableLayout.addView(getLayoutInflater().inflate(R.layout.horizontal_line, baseRow, false));
 
+        // populate the table with rows
         for (int i = 0; i < gameCount; i++) {
             TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.scoreboard_table_row, tableLayout, false);
             // addGameId(i, row);

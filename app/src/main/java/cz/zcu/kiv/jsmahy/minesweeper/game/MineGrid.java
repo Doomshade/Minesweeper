@@ -20,6 +20,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
+/**
+ * A grid of {@link Tile}s
+ */
 public class MineGrid implements Parcelable, Iterable<Tile> {
     public static final Creator<MineGrid> CREATOR = new Creator<MineGrid>() {
         @Override
@@ -36,9 +39,10 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
     private final int size;
     private final int columns;
     private final int rows;
-    private Tile[][] tiles;
     // TODO add an int matrix to determine the default state of mine grid (the count of mines and mines) to save performance when looping over neighbours
+    private Tile[][] tiles;
     private boolean generatedMines = false;
+
 
     public MineGrid(Game.Difficulty difficulty) {
         this.rows = difficulty.getRows();
@@ -63,12 +67,10 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         return Arrays.copyOf(tiles, tiles.length);
     }
 
-    public void setTiles(Tile[][] tiles) {
-        this.tiles = tiles;
-    }
-
     public void generateMines(Context context) {
         Log.i("minegrid", "Generating mines...");
+
+        // generate minegrid from a preset as it's solvable
         final String fileName = String.format(ConfigurationCompat.getLocales(context.getResources().getConfiguration()).get(0),
                 "%dx%d.txt", columns, rows);
         final Scanner file;
@@ -79,6 +81,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
             return;
         }
 
+        // read the file and initialize the grid
         final List<Tile[][]> availableGrids = new ArrayList<>();
         while (file.hasNextLine()) {
             final Tile[][] grid = new Tile[rows][columns];
@@ -98,6 +101,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
             availableGrids.add(grid);
         }
 
+        // choose a random preset
         final Random random = new Random();
         this.tiles = availableGrids.get(random.nextInt(availableGrids.size()));
         this.generatedMines = true;
@@ -115,12 +119,6 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         return size;
     }
 
-    public int[] toXY(int pos) {
-        int x = pos % columns;
-        int y = pos / rows;
-        return new int[]{x, y};
-    }
-
     public boolean isInBounds(Position position) {
         int x = position.x;
         int y = position.y;
@@ -130,10 +128,6 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
 
     public Tile tile(final Position position) {
         return tiles[position.y][position.x];
-    }
-
-    public void setTile(Tile tile, Position position) {
-        this.tiles[position.y][position.x] = tile;
     }
 
     public Tile[][] getNeighbours(final Position position) {
@@ -210,7 +204,7 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
         if (!isInBounds(position)) {
             return UNKNOWN;
         }
-        // Log.i("minegrid", "Searching neighbours at " + position);
+
         int bombCount = 0;
         Tile[][] neighbours = getNeighbours(position);
         for (int y = 0; y < 3; y++) {
@@ -218,7 +212,6 @@ public class MineGrid implements Parcelable, Iterable<Tile> {
                 Tile tile = neighbours[y][x];
                 if (tile != null && tile.isMine()) {
                     bombCount++;
-                    // Log.i("minegrid", "Found bomb at " + new Position(this, position.x + x - 1, position.y + y - 1));
                 }
             }
         }

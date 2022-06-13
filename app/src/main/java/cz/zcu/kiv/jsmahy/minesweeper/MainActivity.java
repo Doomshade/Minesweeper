@@ -6,9 +6,6 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,21 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void exit(View view) {
         finish();
-    }
-
-    private void hideSystemBars() {
-        View decorView = getWindow().getDecorView();
-        WindowInsetsControllerCompat windowInsetsController =
-                ViewCompat.getWindowInsetsController(decorView);
-        if (windowInsetsController == null) {
-            return;
-        }
-        // Configure the behavior of the hidden system bars
-        windowInsetsController.setSystemBarsBehavior(
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        );
-        // Hide both the status bar and the navigation bar
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
     }
 
 }
